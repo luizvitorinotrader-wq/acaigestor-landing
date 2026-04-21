@@ -1,853 +1,576 @@
-import { useState, useEffect } from 'react';
-import {
-  ShoppingBag,
-  BarChart3,
-  Package,
-  Users,
-  Clock,
-  Shield,
-  ChevronDown,
-  ChevronUp,
-  ArrowRight,
-  Check,
-  Star,
-  Menu,
-  X,
-  Zap,
-  TrendingUp,
-  Smartphone,
-} from 'lucide-react';
+import { Store, ChartBar as BarChart3, Package, DollarSign, Smartphone, Check, X, TrendingDown, Clock, CircleAlert as AlertCircle, Zap, Shield, Award, ChevronDown, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 
-function trackEvent(name: string, props?: Record<string, string>) {
-  try {
-    if (typeof window !== 'undefined' && (window as any).plausible) {
-      (window as any).plausible(name, { props });
+export default function Landing() {
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+
+  const trackEvent = (eventName: string) => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const w = window as any;
+      if (typeof w !== 'undefined' && w.plausible) {
+        w.plausible(eventName);
+      }
+    } catch {
+      // Plausible not loaded yet
     }
-  } catch {
-    // Plausible not loaded yet — safe to ignore
-  }
-}
+  };
 
-/* ───────────────────────── Header ───────────────────────── */
+  const painPoints = [
+    {
+      icon: <TrendingDown className="w-6 h-6" />,
+      title: 'Não sabe quanto vende por dia',
+      description: 'Perde dinheiro sem saber onde'
+    },
+    {
+      icon: <Package className="w-6 h-6" />,
+      title: 'Perde controle do estoque',
+      description: 'Produtos faltam ou ficam parados'
+    },
+    {
+      icon: <Clock className="w-6 h-6" />,
+      title: 'Demora no atendimento',
+      description: 'Clientes desistem e vão embora'
+    },
+    {
+      icon: <AlertCircle className="w-6 h-6" />,
+      title: 'Erros no caixa',
+      description: 'Dinheiro que entra não fecha no final'
+    },
+    {
+      icon: <X className="w-6 h-6" />,
+      title: 'Clientes indo embora',
+      description: 'Fila grande afasta quem ia comprar'
+    },
+  ];
 
-function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const benefits = [
+    {
+      icon: <Zap className="w-6 h-6" />,
+      title: 'Venda mais rápido no PDV',
+      description: 'Atenda em segundos, não em minutos. Clientes felizes, mais vendas no dia.'
+    },
+    {
+      icon: <DollarSign className="w-6 h-6" />,
+      title: 'Controle total do caixa em tempo real',
+      description: 'Saiba exatamente quanto entrou, quanto saiu, e onde está cada centavo.'
+    },
+    {
+      icon: <BarChart3 className="w-6 h-6" />,
+      title: 'Saiba exatamente o que vende mais',
+      description: 'Veja quais produtos dão lucro e quais só ocupam espaço. Decida com dados.'
+    },
+    {
+      icon: <Package className="w-6 h-6" />,
+      title: 'Organize seus produtos sem complicação',
+      description: 'Cadastro rápido, categorias claras, estoque sob controle. Simples assim.'
+    },
+    {
+      icon: <Smartphone className="w-6 h-6" />,
+      title: 'Tenha tudo na palma da mão',
+      description: 'Celular, tablet, computador. Funciona em todos, de qualquer lugar.'
+    },
+  ];
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const systemDemo = [
+    {
+      title: 'PDV Rápido',
+      description: 'Venda em segundos com interface otimizada para velocidade',
+      color: 'from-green-500 to-emerald-600'
+    },
+    {
+      title: 'Dashboard Inteligente',
+      description: 'Veja suas vendas, lucros e métricas do dia em tempo real',
+      color: 'from-blue-500 to-cyan-600'
+    },
+    {
+      title: 'Categorias e Produtos',
+      description: 'Organize tudo de forma clara e encontre produtos na hora',
+      color: 'from-purple-500 to-pink-600'
+    },
+    {
+      title: 'Controle de Caixa',
+      description: 'Abra, feche e controle cada movimento financeiro do seu negócio',
+      color: 'from-orange-500 to-red-600'
+    },
+  ];
 
-  const navLinks = [
-    { label: 'Funcionalidades', href: '#funcionalidades' },
-    { label: 'Como Funciona', href: '#como-funciona' },
-    { label: 'Planos', href: '#planos' },
-    { label: 'Depoimentos', href: '#depoimentos' },
-    { label: 'FAQ', href: '#faq' },
+  const plans = [
+    {
+      name: 'Starter',
+      price: 'R$ 39,90',
+      subtitle: 'Ideal para começar',
+      buttonText: 'Começar teste grátis',
+      trackEvents: ['plan_starter_click', 'start_trial_click'],
+      features: [
+        'Cadastro de produtos',
+        'Controle básico de vendas',
+        'Relatório diário simples',
+        'Acesso mobile e desktop',
+        'Suporte por email',
+      ],
+    },
+    {
+      name: 'Pro',
+      price: 'R$ 79,90',
+      popular: true,
+      subtitle: 'Melhor custo-benefício',
+      buttonText: 'Começar agora',
+      trackEvents: ['plan_pro_click', 'start_trial_click'],
+      features: [
+        'Tudo do Starter',
+        'PDV completo e rápido',
+        'Controle de caixa profissional',
+        'Categorias e gestão avançada',
+        'Relatórios detalhados',
+        'Controle de estoque',
+        'Múltiplos usuários (até 3)',
+        'Suporte prioritário',
+      ],
+    },
+    {
+      name: 'Premium',
+      price: 'R$ 149,90',
+      subtitle: 'Recursos avançados',
+      buttonText: 'Falar com especialista',
+      trackEvents: ['plan_premium_click'],
+      features: [
+        'Tudo do Pro',
+        'Usuários ilimitados',
+        'Comandas e mesas',
+        'Fichas técnicas de produtos',
+        'Gestão de clientes',
+        'Análises avançadas',
+        'API para integrações',
+        'Atendimento prioritário',
+      ],
+    },
+  ];
+
+  const faqs = [
+    {
+      question: 'Preciso instalar algo?',
+      answer: 'Não! O VendaFlow funciona direto no navegador. Basta acessar de qualquer dispositivo conectado à internet e começar a usar.'
+    },
+    {
+      question: 'Funciona no celular?',
+      answer: 'Sim! O sistema foi desenvolvido mobile-first. Funciona perfeitamente em celular, tablet e computador. Você escolhe como usar.'
+    },
+    {
+      question: 'Posso cancelar quando quiser?',
+      answer: 'Sim, sem letras miúdas. Cancele quando quiser direto no painel. Sem multas, sem burocracia. Seus dados ficam salvos por 30 dias caso mude de ideia.'
+    },
+    {
+      question: 'Tem suporte?',
+      answer: 'Sim! Todos os planos incluem suporte. O plano Pro tem prioridade no atendimento, e o Premium tem atendimento prioritário com tempo de resposta mais rápido.'
+    },
+    {
+      question: 'Serve para quais tipos de negócio?',
+      answer: 'Qualquer comércio que vende produtos: açaí, lanchonete, cafeteria, loja de roupas, mercadinho, farmácia, e muito mais. Se você vende, o VendaFlow organiza.'
+    },
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          <a href="/" className="flex items-center gap-2 no-underline">
-            <div className="w-9 h-9 bg-brand-600 rounded-xl flex items-center justify-center">
-              <ShoppingBag className="w-5 h-5 text-white" />
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-2">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg">
+                <Store className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">VendaFlow</span>
             </div>
-            <span
-              className={`text-xl font-bold transition-colors duration-300 ${
-                scrolled ? 'text-neutral-900' : 'text-neutral-900'
-              }`}
-            >
-              AcaiGestor
-            </span>
-          </a>
-
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
+            <div className="flex items-center space-x-4">
               <a
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors duration-200 no-underline ${
-                  scrolled
-                    ? 'text-neutral-600 hover:text-neutral-900'
-                    : 'text-neutral-600 hover:text-neutral-900'
-                }`}
+                href={`${APP_URL}/login`}
+                className="text-gray-700 hover:text-gray-900 font-medium transition hidden sm:block no-underline"
               >
-                {link.label}
+                Entrar
               </a>
-            ))}
-          </nav>
-
-          <div className="hidden lg:flex items-center gap-3">
-            <a
-              href={`${APP_URL}/login`}
-              onClick={() => trackEvent('click_login', { location: 'header' })}
-              className="text-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 py-2 rounded-lg transition-colors no-underline"
-            >
-              Entrar
-            </a>
-            <a
-              href={`${APP_URL}/register`}
-              onClick={() =>
-                trackEvent('click_register', { location: 'header' })
-              }
-              className="text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 px-5 py-2.5 rounded-xl transition-colors no-underline"
-            >
-              Comecar Gratis
-            </a>
-          </div>
-
-          <button
-            className="lg:hidden p-2 text-neutral-600"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Menu"
-          >
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-neutral-100 shadow-lg">
-          <div className="px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50 rounded-lg no-underline"
-              >
-                {link.label}
-              </a>
-            ))}
-            <hr className="my-3 border-neutral-100" />
-            <a
-              href={`${APP_URL}/login`}
-              className="block px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50 rounded-lg no-underline"
-            >
-              Entrar
-            </a>
-            <a
-              href={`${APP_URL}/register`}
-              className="block px-4 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl text-center no-underline"
-            >
-              Comecar Gratis
-            </a>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-}
-
-/* ───────────────────────── Hero ───────────────────────── */
-
-function Hero() {
-  return (
-    <section className="relative pt-28 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-emerald-50" />
-      <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-brand-100/40 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-100/30 rounded-full blur-3xl" />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-100/60 text-brand-700 rounded-full text-sm font-medium mb-8">
-            <Zap className="w-4 h-4" />
-            Sistema completo para acaiterias
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight mb-6">
-            Gestao inteligente{' '}
-            <span className="text-brand-600">para sua acaiteria</span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-neutral-500 leading-relaxed mb-10 max-w-2xl mx-auto">
-            Controle pedidos, estoque, financeiro e equipe em um unico lugar.
-            Simples, rapido e feito sob medida para o seu negocio.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={`${APP_URL}/register`}
-              onClick={() =>
-                trackEvent('click_register', { location: 'hero' })
-              }
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-2xl text-lg transition-all duration-200 hover:shadow-lg hover:shadow-brand-600/25 no-underline"
-            >
-              Comecar Gratis
-              <ArrowRight className="w-5 h-5" />
-            </a>
-            <a
-              href="#como-funciona"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-neutral-50 text-neutral-700 font-semibold rounded-2xl text-lg border border-neutral-200 transition-all duration-200 no-underline"
-            >
-              Como Funciona
-            </a>
-          </div>
-
-          <div className="mt-12 flex items-center justify-center gap-8 text-sm text-neutral-400">
-            <div className="flex items-center gap-2">
-              <Check className="w-4 h-4 text-brand-500" />
-              Sem cartao de credito
-            </div>
-            <div className="flex items-center gap-2">
-              <Check className="w-4 h-4 text-brand-500" />
-              Pronto em 2 minutos
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-16 lg:mt-24 max-w-5xl mx-auto">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-neutral-900/10 border border-neutral-200/50">
-            <img
-              src="https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750"
-              alt="Dashboard do AcaiGestor"
-              className="w-full h-auto"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/10 to-transparent" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── Features ───────────────────────── */
-
-const features = [
-  {
-    icon: ShoppingBag,
-    title: 'Gestao de Pedidos',
-    description:
-      'Receba e gerencie pedidos em tempo real. Acompanhe cada etapa do preparo ate a entrega.',
-  },
-  {
-    icon: Package,
-    title: 'Controle de Estoque',
-    description:
-      'Monitore ingredientes e insumos. Alertas automaticos quando o estoque esta baixo.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Relatorios Financeiros',
-    description:
-      'Visualize receitas, despesas e lucro em dashboards claros. Tome decisoes com dados reais.',
-  },
-  {
-    icon: Users,
-    title: 'Gestao de Equipe',
-    description:
-      'Controle turnos, permissoes e produtividade. Cada colaborador com seu nivel de acesso.',
-  },
-  {
-    icon: Clock,
-    title: 'Historico Completo',
-    description:
-      'Todas as operacoes registradas. Consulte vendas, alteracoes e movimentacoes a qualquer momento.',
-  },
-  {
-    icon: Shield,
-    title: 'Seguranca Total',
-    description:
-      'Dados protegidos com criptografia. Backups automaticos e acesso seguro de qualquer lugar.',
-  },
-];
-
-function Features() {
-  return (
-    <section id="funcionalidades" className="py-20 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
-            Tudo que voce precisa em um so lugar
-          </h2>
-          <p className="text-lg text-neutral-500">
-            Funcionalidades pensadas para o dia a dia de quem administra uma
-            acaiteria.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="group p-8 rounded-2xl border border-neutral-100 hover:border-brand-200 bg-white hover:shadow-lg hover:shadow-brand-100/40 transition-all duration-300"
-            >
-              <div className="w-12 h-12 bg-brand-50 group-hover:bg-brand-100 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300">
-                <f.icon className="w-6 h-6 text-brand-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-                {f.title}
-              </h3>
-              <p className="text-neutral-500 leading-relaxed">
-                {f.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── How It Works ───────────────────────── */
-
-const steps = [
-  {
-    number: '01',
-    title: 'Crie sua conta',
-    description:
-      'Cadastre-se gratuitamente em menos de 2 minutos. Sem cartao de credito.',
-  },
-  {
-    number: '02',
-    title: 'Configure sua loja',
-    description:
-      'Adicione seus produtos, precos e personalize o cardapio da sua acaiteria.',
-  },
-  {
-    number: '03',
-    title: 'Comece a vender',
-    description:
-      'Receba pedidos, controle o estoque e acompanhe tudo pelo painel em tempo real.',
-  },
-];
-
-function HowItWorks() {
-  return (
-    <section id="como-funciona" className="py-20 lg:py-32 bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
-            Comece em 3 passos simples
-          </h2>
-          <p className="text-lg text-neutral-500">
-            Nao precisa de conhecimento tecnico. Configure tudo em minutos.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-          {steps.map((step, i) => (
-            <div key={step.number} className="relative text-center">
-              {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px border-t-2 border-dashed border-neutral-300" />
-              )}
-              <div className="relative inline-flex items-center justify-center w-20 h-20 bg-brand-600 text-white text-2xl font-bold rounded-2xl mb-6 shadow-lg shadow-brand-600/20">
-                {step.number}
-              </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-3">
-                {step.title}
-              </h3>
-              <p className="text-neutral-500 leading-relaxed max-w-xs mx-auto">
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── Pricing ───────────────────────── */
-
-const plans = [
-  {
-    name: 'Starter',
-    price: 'Gratis',
-    period: '',
-    description: 'Para quem esta comecando e quer testar o sistema.',
-    cta: 'Comecar Gratis',
-    featured: false,
-    features: [
-      'Ate 50 pedidos/mes',
-      '1 usuario',
-      'Controle basico de estoque',
-      'Relatorio mensal',
-      'Suporte por email',
-    ],
-  },
-  {
-    name: 'Profissional',
-    price: 'R$ 79',
-    period: '/mes',
-    description: 'Para acaiterias em crescimento que precisam de mais controle.',
-    cta: 'Testar por 7 dias',
-    featured: true,
-    features: [
-      'Pedidos ilimitados',
-      'Ate 5 usuarios',
-      'Estoque completo com alertas',
-      'Relatorios em tempo real',
-      'Gestao de equipe',
-      'Suporte prioritario',
-    ],
-  },
-  {
-    name: 'Empresarial',
-    price: 'R$ 149',
-    period: '/mes',
-    description: 'Para operacoes maiores com multiplas unidades.',
-    cta: 'Falar com Vendas',
-    featured: false,
-    features: [
-      'Tudo do Profissional',
-      'Usuarios ilimitados',
-      'Multi-lojas',
-      'API de integracao',
-      'Relatorios avancados',
-      'Gerente de conta dedicado',
-    ],
-  },
-];
-
-function Pricing() {
-  return (
-    <section id="planos" className="py-20 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
-            Planos que cabem no seu bolso
-          </h2>
-          <p className="text-lg text-neutral-500">
-            Comece gratis e escale conforme sua acaiteria cresce.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`relative rounded-2xl p-8 transition-all duration-300 ${
-                plan.featured
-                  ? 'bg-neutral-900 text-white shadow-2xl shadow-neutral-900/20 scale-105'
-                  : 'bg-white border border-neutral-200 hover:shadow-lg'
-              }`}
-            >
-              {plan.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-500 text-white text-xs font-semibold rounded-full">
-                  Mais Popular
-                </div>
-              )}
-
-              <h3
-                className={`text-lg font-semibold mb-2 ${
-                  plan.featured ? 'text-white' : 'text-neutral-900'
-                }`}
-              >
-                {plan.name}
-              </h3>
-              <p
-                className={`text-sm mb-6 ${
-                  plan.featured ? 'text-neutral-400' : 'text-neutral-500'
-                }`}
-              >
-                {plan.description}
-              </p>
-
-              <div className="flex items-baseline gap-1 mb-8">
-                <span
-                  className={`text-4xl font-bold ${
-                    plan.featured ? 'text-white' : 'text-neutral-900'
-                  }`}
-                >
-                  {plan.price}
-                </span>
-                {plan.period && (
-                  <span
-                    className={`text-sm ${
-                      plan.featured ? 'text-neutral-400' : 'text-neutral-500'
-                    }`}
-                  >
-                    {plan.period}
-                  </span>
-                )}
-              </div>
-
               <a
                 href={`${APP_URL}/register`}
-                onClick={() =>
-                  trackEvent('click_register', {
-                    location: 'pricing',
-                    plan: plan.name,
-                  })
-                }
-                className={`block w-full py-3 px-6 rounded-xl text-center font-semibold text-sm transition-all duration-200 no-underline mb-8 ${
-                  plan.featured
-                    ? 'bg-brand-500 hover:bg-brand-600 text-white'
-                    : 'bg-neutral-900 hover:bg-neutral-800 text-white'
+                onClick={() => trackEvent('start_trial_click')}
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition shadow-md no-underline"
+              >
+                Começar grátis
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 pt-16 pb-20 sm:pt-20 sm:pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                Controle total do seu negócio na palma da mão —
+                <span className="block mt-2 bg-gradient-to-r from-green-600 to-emerald-600 text-transparent bg-clip-text">
+                  venda mais todos os dias, sem complicação
+                </span>
+              </h1>
+              <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+                Sistema simples, rápido e feito para quem não tem tempo a perder. Teste grátis hoje.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <a
+                  href={`${APP_URL}/register`}
+                  onClick={() => {
+                    trackEvent('cta_hero_click');
+                    trackEvent('start_trial_click');
+                  }}
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-green-600 hover:to-green-700 transition shadow-lg flex items-center justify-center group no-underline"
+                >
+                  Começar teste grátis
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <button
+                  onClick={() => {
+                    trackEvent('cta_view_plans');
+                    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition border-2 border-gray-200 shadow-md"
+                >
+                  Ver planos
+                </button>
+              </div>
+              <p className="mt-6 text-sm text-gray-500 flex items-center justify-center lg:justify-start gap-2">
+                <Check className="w-4 h-4 text-green-600" />
+                Teste grátis por 7 dias • Sem cartão • Cancele quando quiser
+              </p>
+            </div>
+
+            {/* Visual Demo */}
+            <div className="mt-12 lg:mt-0">
+              <div className="relative">
+                <div className="bg-white rounded-2xl shadow-2xl p-6 border border-gray-200">
+                  <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-200">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="ml-2 text-sm text-gray-600 font-medium">VendaFlow Dashboard</span>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-4 rounded-lg text-white">
+                      <div className="text-sm opacity-90 mb-1">Vendas Hoje</div>
+                      <div className="text-3xl font-bold">R$ 2.847,50</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                        <div className="text-xs text-gray-600 mb-1">Produtos vendidos</div>
+                        <div className="text-xl font-bold text-gray-900">127</div>
+                      </div>
+                      <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                        <div className="text-xs text-gray-600 mb-1">Ticket médio</div>
+                        <div className="text-xl font-bold text-gray-900">R$ 32,40</div>
+                      </div>
+                    </div>
+                    <div className="pt-2">
+                      <div className="flex items-center justify-between text-sm mb-2">
+                        <span className="text-gray-600">Açaí 500ml</span>
+                        <span className="font-semibold text-gray-900">45 vendas</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm mb-2">
+                        <span className="text-gray-600">X-Burger</span>
+                        <span className="font-semibold text-gray-900">32 vendas</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Suco Natural</span>
+                        <span className="font-semibold text-gray-900">28 vendas</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl shadow-xl">
+                  <div className="text-xs opacity-90 mb-1">PDV Ativo</div>
+                  <div className="text-2xl font-bold">Pronto para vender</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pain Points Section */}
+      <section className="py-16 sm:py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Seu negócio está perdendo dinheiro sem você perceber
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Reconhece algum desses problemas no seu dia a dia?
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {painPoints.map((pain, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl border-2 border-red-100 hover:border-red-200 transition group">
+                <div className="bg-red-50 text-red-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-100 transition">
+                  {pain.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{pain.title}</h3>
+                <p className="text-sm text-gray-600">{pain.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Com o VendaFlow, tudo fica simples
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Um sistema que resolve seus problemas de verdade
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="p-6 rounded-xl border-2 border-gray-100 hover:border-green-200 hover:shadow-lg transition group">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  {benefit.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
+                <p className="text-gray-600">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* System Demo Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Veja como é simples usar
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
+              Tudo que você precisa para vender mais, em uma interface clara e rápida
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {systemDemo.map((demo, index) => (
+              <div key={index} className="group cursor-pointer">
+                <div className={`bg-gradient-to-br ${demo.color} p-8 rounded-xl shadow-lg group-hover:scale-105 transition-transform h-48 flex flex-col justify-between`}>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">{demo.title}</h3>
+                    <p className="text-white/90 text-sm">{demo.description}</p>
+                  </div>
+                  <div className="flex justify-end">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition">
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-16 sm:py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Planos para todos os tamanhos de negócio
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Teste grátis por 7 dias. Sem cartão de crédito. Cancele quando quiser.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            {plans.map((plan, index) => (
+              <div
+                key={index}
+                className={`bg-white rounded-2xl shadow-xl p-8 relative transition-all ${
+                  plan.popular ? 'border-4 border-green-500 lg:scale-105 lg:-mt-4' : 'border border-gray-200'
                 }`}
               >
-                {plan.cta}
-              </a>
-
-              <ul className="space-y-3">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
-                    <Check
-                      className={`w-5 h-5 shrink-0 mt-0.5 ${
-                        plan.featured ? 'text-brand-400' : 'text-brand-500'
-                      }`}
-                    />
-                    <span
-                      className={`text-sm ${
-                        plan.featured ? 'text-neutral-300' : 'text-neutral-600'
-                      }`}
-                    >
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── Testimonials ───────────────────────── */
-
-const testimonials = [
-  {
-    name: 'Carlos Silva',
-    role: 'Dono da Acai Mania',
-    text: 'Antes eu controlava tudo no caderno. Com o AcaiGestor, reduzi o desperdicio de estoque em 30% e consigo ver meu lucro real todo dia.',
-    stars: 5,
-  },
-  {
-    name: 'Ana Paula Costa',
-    role: 'Gerente, Acai Premium',
-    text: 'O sistema e super intuitivo. Minha equipe aprendeu a usar em um dia. Os relatorios me ajudam a tomar decisoes muito mais rapidas.',
-    stars: 5,
-  },
-  {
-    name: 'Roberto Almeida',
-    role: 'Proprietario, Rei do Acai',
-    text: 'Tenho 3 lojas e o AcaiGestor me permite acompanhar todas de um so lugar. O suporte e excelente e o preco e muito justo.',
-    stars: 5,
-  },
-];
-
-function Testimonials() {
-  return (
-    <section id="depoimentos" className="py-20 lg:py-32 bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
-            Quem usa, recomenda
-          </h2>
-          <p className="text-lg text-neutral-500">
-            Veja o que nossos clientes dizem sobre o AcaiGestor.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((t) => (
-            <div
-              key={t.name}
-              className="bg-white rounded-2xl p-8 border border-neutral-100 hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: t.stars }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 text-amber-400 fill-amber-400"
-                  />
-                ))}
-              </div>
-              <p className="text-neutral-600 leading-relaxed mb-6">
-                "{t.text}"
-              </p>
-              <div>
-                <p className="font-semibold text-neutral-900">{t.name}</p>
-                <p className="text-sm text-neutral-400">{t.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── FAQ ───────────────────────── */
-
-const faqs = [
-  {
-    q: 'Preciso pagar para comecar a usar?',
-    a: 'Nao! O plano Starter e totalmente gratuito. Voce pode testar o sistema sem compromisso e sem cartao de credito.',
-  },
-  {
-    q: 'O sistema funciona no celular?',
-    a: 'Sim. O AcaiGestor e totalmente responsivo e funciona em qualquer dispositivo com acesso a internet — celular, tablet ou computador.',
-  },
-  {
-    q: 'Meus dados estao seguros?',
-    a: 'Absolutamente. Usamos criptografia de ponta a ponta e backups automaticos diarios. Seus dados estao protegidos seguindo os mais altos padroes de seguranca.',
-  },
-  {
-    q: 'Posso cancelar a qualquer momento?',
-    a: 'Sim. Nao temos fidelidade ou multa. Voce pode fazer upgrade, downgrade ou cancelar quando quiser.',
-  },
-  {
-    q: 'Quanto tempo leva para configurar?',
-    a: 'Menos de 5 minutos. Crie sua conta, adicione seus produtos e comece a receber pedidos. Se precisar de ajuda, nosso suporte esta disponivel.',
-  },
-  {
-    q: 'Consigo gerenciar mais de uma loja?',
-    a: 'Sim! O plano Empresarial suporta multiplas lojas em um unico painel. Ideal para quem esta expandindo.',
-  },
-];
-
-function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <section id="faq" className="py-20 lg:py-32 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
-            Perguntas Frequentes
-          </h2>
-          <p className="text-lg text-neutral-500">
-            Tire suas duvidas sobre o AcaiGestor.
-          </p>
-        </div>
-
-        <div className="space-y-3">
-          {faqs.map((faq, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div
-                key={i}
-                className="border border-neutral-200 rounded-xl overflow-hidden transition-colors hover:border-neutral-300"
-              >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-5 text-left bg-white hover:bg-neutral-50 transition-colors"
+                {plan.popular && (
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                    MAIS POPULAR
+                  </div>
+                )}
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <p className="text-sm text-gray-600 mb-4 h-5">{plan.subtitle}</p>
+                  <div className="mb-2">
+                    <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+                    <span className="text-gray-600 text-lg">/mês</span>
+                  </div>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={`${APP_URL}/register`}
+                  onClick={() => {
+                    plan.trackEvents.forEach((evt) => trackEvent(evt));
+                  }}
+                  className={`block w-full py-4 rounded-lg font-semibold transition text-lg shadow-md text-center no-underline ${
+                    plan.popular
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-green-200'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}
                 >
-                  <span className="font-medium text-neutral-900 pr-4">
-                    {faq.q}
-                  </span>
-                  {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-neutral-400 shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-neutral-400 shrink-0" />
-                  )}
+                  {plan.buttonText}
+                </a>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <p className="text-gray-600 text-lg">
+              <Shield className="w-5 h-5 inline mr-2 text-green-600" />
+              Todos os planos incluem 7 dias grátis • Sem compromisso • Cancele quando quiser
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Section */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <Award className="w-16 h-16 text-green-600 mx-auto mb-6" />
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Negócios locais já estão organizando suas vendas com o VendaFlow
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              Açaiterias, lanchonetes, cafeterias e outros comércios usam o VendaFlow todos os dias para vender mais e ter controle total do negócio.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto mt-12">
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <div className="text-4xl font-bold text-green-600 mb-2">Simples</div>
+                <p className="text-gray-600">Interface intuitiva que qualquer um consegue usar</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <div className="text-4xl font-bold text-green-600 mb-2">Rápido</div>
+                <p className="text-gray-600">Venda em segundos, não em minutos</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <div className="text-4xl font-bold text-green-600 mb-2">Completo</div>
+                <p className="text-gray-600">Tudo que você precisa em um lugar só</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 sm:py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Perguntas frequentes
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600">
+              Tudo que você precisa saber antes de começar
+            </p>
+          </div>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <button
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition"
+                >
+                  <span className="font-semibold text-gray-900 text-lg pr-4">{faq.question}</span>
+                  <ChevronDown className={`w-5 h-5 text-gray-600 flex-shrink-0 transition-transform ${openFAQ === index ? 'rotate-180' : ''}`} />
                 </button>
-                {isOpen && (
-                  <div className="px-6 pb-5 text-neutral-500 leading-relaxed">
-                    {faq.a}
+                {openFAQ === index && (
+                  <div className="px-6 pb-5 text-gray-600 border-t border-gray-100 pt-4">
+                    {faq.answer}
                   </div>
                 )}
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
 
-/* ───────────────────────── CTA ───────────────────────── */
-
-function CTA() {
-  return (
-    <section className="py-20 lg:py-32 bg-neutral-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-          Pronto para transformar sua acaiteria?
-        </h2>
-        <p className="text-lg text-neutral-400 mb-10 max-w-2xl mx-auto">
-          Junte-se a centenas de acaiterias que ja usam o AcaiGestor para
-          crescer com mais controle e menos esforco.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      {/* Final CTA Section */}
+      <section className="py-20 sm:py-24 bg-gradient-to-r from-green-500 to-emerald-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            Comece hoje e organize seu negócio
+          </h2>
+          <p className="text-xl sm:text-2xl text-green-50 mb-10 max-w-2xl mx-auto">
+            Teste grátis, sem complicação, e veja como é fácil vender com mais controle.
+          </p>
           <a
             href={`${APP_URL}/register`}
-            onClick={() => trackEvent('click_register', { location: 'cta' })}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-2xl text-lg transition-all duration-200 hover:shadow-lg hover:shadow-brand-500/25 no-underline"
+            onClick={() => {
+              trackEvent('cta_final_click');
+              trackEvent('start_trial_click');
+            }}
+            className="bg-white text-green-600 px-10 py-5 rounded-lg font-bold text-xl hover:bg-gray-50 transition shadow-2xl inline-flex items-center group no-underline"
           >
-            Comecar Agora
-            <ArrowRight className="w-5 h-5" />
+            Começar teste grátis agora
+            <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
           </a>
-          <a
-            href={`${APP_URL}/login`}
-            onClick={() => trackEvent('click_login', { location: 'cta' })}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-neutral-800 hover:bg-neutral-700 text-white font-semibold rounded-2xl text-lg border border-neutral-700 transition-all duration-200 no-underline"
-          >
-            Ja tenho conta
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── Stats ───────────────────────── */
-
-const stats = [
-  { value: '500+', label: 'Acaiterias ativas', icon: ShoppingBag },
-  { value: '50k+', label: 'Pedidos por mes', icon: TrendingUp },
-  { value: '99.9%', label: 'Disponibilidade', icon: Zap },
-  { value: '4.9/5', label: 'Avaliacao dos clientes', icon: Star },
-];
-
-function Stats() {
-  return (
-    <section className="py-16 bg-white border-y border-neutral-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <stat.icon className="w-6 h-6 text-brand-500 mx-auto mb-3" />
-              <p className="text-3xl font-bold text-neutral-900 mb-1">
-                {stat.value}
-              </p>
-              <p className="text-sm text-neutral-500">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── Footer ───────────────────────── */
-
-function Footer() {
-  const year = new Date().getFullYear();
-
-  return (
-    <footer className="bg-neutral-950 text-neutral-400 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-brand-600 rounded-xl flex items-center justify-center">
-                <ShoppingBag className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">AcaiGestor</span>
-            </div>
-            <p className="text-neutral-500 leading-relaxed max-w-sm">
-              Sistema completo de gestao para acaiterias. Controle pedidos,
-              estoque, financeiro e equipe em um unico lugar.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Produto
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="#funcionalidades"
-                  className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline"
-                >
-                  Funcionalidades
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#planos"
-                  className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline"
-                >
-                  Planos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#depoimentos"
-                  className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline"
-                >
-                  Depoimentos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline"
-                >
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Acesso
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href={`${APP_URL}/login`}
-                  className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline"
-                >
-                  Entrar
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`${APP_URL}/register`}
-                  className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline"
-                >
-                  Criar Conta
-                </a>
-              </li>
-            </ul>
-
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 mt-8">
-              Funciona em
-            </h4>
-            <div className="flex items-center gap-2 text-sm text-neutral-500">
-              <Smartphone className="w-4 h-4" />
-              Celular, tablet e desktop
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-neutral-800 pt-8 text-center">
-          <p className="text-sm text-neutral-600">
-            &copy; {year} AcaiGestor. Todos os direitos reservados.
+          <p className="mt-6 text-green-50 text-sm flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <span className="flex items-center gap-2">
+              <Check className="w-4 h-4" />
+              7 dias grátis
+            </span>
+            <span className="flex items-center gap-2">
+              <Check className="w-4 h-4" />
+              Sem cartão de crédito
+            </span>
+            <span className="flex items-center gap-2">
+              <Check className="w-4 h-4" />
+              Cancele quando quiser
+            </span>
           </p>
         </div>
-      </div>
-    </footer>
-  );
-}
+      </section>
 
-/* ───────────────────────── Landing (main) ───────────────────────── */
-
-export default function Landing() {
-  return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <Stats />
-        <Features />
-        <HowItWorks />
-        <Pricing />
-        <Testimonials />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
-    </>
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center text-center">
+            <div className="flex items-center space-x-2 mb-6">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-lg">
+                <Store className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xl font-bold">VendaFlow</span>
+            </div>
+            <p className="text-gray-400 mb-6 max-w-md">
+              Controle total das suas vendas, sem complicação.
+            </p>
+            <div className="flex gap-6 mb-6 text-sm">
+              <a href={`${APP_URL}/login`} className="text-gray-400 hover:text-white transition no-underline">
+                Entrar
+              </a>
+              <a href={`${APP_URL}/register`} className="text-gray-400 hover:text-white transition no-underline">
+                Criar conta
+              </a>
+              <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-400 hover:text-white transition">
+                Planos
+              </button>
+            </div>
+            <p className="text-gray-500 text-sm">
+              © 2024 VendaFlow. Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
