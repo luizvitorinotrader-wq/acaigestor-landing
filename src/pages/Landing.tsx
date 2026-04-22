@@ -106,22 +106,22 @@ export default function Landing() {
     {
       title: 'PDV Rápido',
       description: 'Venda sem travar fila e atenda em poucos toques',
-      color: 'from-green-500 to-emerald-600',
+      color: 'from-emerald-500 to-green-600',
     },
     {
       title: 'Dashboard Inteligente',
       description: 'Veja vendas, ticket médio e desempenho em tempo real',
-      color: 'from-blue-500 to-cyan-600',
+      color: 'from-sky-500 to-cyan-600',
     },
     {
       title: 'Categorias e Produtos',
       description: 'Encontre tudo rápido e mantenha sua operação organizada',
-      color: 'from-purple-500 to-pink-600',
+      color: 'from-violet-500 to-fuchsia-600',
     },
     {
       title: 'Controle de Caixa',
       description: 'Acompanhe cada entrada e saída sem perder o controle',
-      color: 'from-orange-500 to-red-600',
+      color: 'from-orange-500 to-rose-600',
     },
   ];
 
@@ -229,29 +229,29 @@ export default function Landing() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-white text-slate-900">
       {/* Navigation */}
-      <nav className="border-b border-gray-200 bg-white/95 backdrop-blur sticky top-0 z-50 shadow-sm">
+      <nav className="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-xl shadow-sm">
+              <div className="bg-gradient-to-r from-emerald-500 to-green-600 p-2 rounded-xl shadow-sm">
                 <Store className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-tight">VendaFlow</span>
+              <span className="text-xl font-bold tracking-tight text-slate-900">VendaFlow</span>
             </div>
 
             <div className="flex items-center space-x-4">
               <a
                 href={`${APP_URL}/login`}
-                className="text-gray-700 hover:text-gray-900 font-medium transition hidden sm:block no-underline"
+                className="text-slate-700 hover:text-slate-900 font-medium transition hidden sm:block no-underline"
               >
                 Entrar
               </a>
               <a
                 href={`${APP_URL}/register`}
                 onClick={() => trackEvent('start_trial_click')}
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-6 py-2.5 rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition shadow-md no-underline"
+                className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-4 sm:px-6 py-2.5 rounded-xl font-semibold hover:from-emerald-600 hover:to-green-700 transition shadow-md no-underline"
               >
                 Começar grátis
               </a>
@@ -261,28 +261,28 @@ export default function Landing() {
       </nav>
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-white pt-16 pb-20 sm:pt-20 sm:pb-24">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-emerald-50 pt-16 pb-20 sm:pt-20 sm:pb-24">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-green-200/30 blur-3xl rounded-full"></div>
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-emerald-200/30 blur-3xl rounded-full"></div>
+          <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-200/20 blur-3xl rounded-full"></div>
+          <div className="absolute bottom-0 right-0 w-72 h-72 bg-sky-200/20 blur-3xl rounded-full"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-14 items-center">
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-white border border-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm mb-6">
+              <div className="inline-flex items-center gap-2 bg-white border border-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm mb-6">
                 <BadgeCheck className="w-4 h-4" />
                 7 dias grátis para testar sem risco
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.05]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.05]">
                 Pare de perder dinheiro no seu negócio —
-                <span className="block mt-2 bg-gradient-to-r from-green-600 to-emerald-600 text-transparent bg-clip-text">
+                <span className="block mt-2 bg-gradient-to-r from-emerald-600 to-green-600 text-transparent bg-clip-text">
                   controle vendas, estoque e caixa em um só lugar
                 </span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-lg sm:text-xl text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0">
                 Venda mais, atenda mais rápido e saiba exatamente o que acontece no seu negócio, mesmo sem experiência com sistemas.
               </p>
 
@@ -293,7 +293,7 @@ export default function Landing() {
                     trackEvent('cta_hero_click');
                     trackEvent('start_trial_click');
                   }}
-                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-green-600 hover:to-green-700 transition shadow-lg flex items-center justify-center group no-underline"
+                  className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-emerald-600 hover:to-green-700 transition shadow-lg flex items-center justify-center group no-underline"
                 >
                   Começar grátis agora
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -304,23 +304,23 @@ export default function Landing() {
                     trackEvent('cta_view_plans');
                     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition border border-gray-200 shadow-sm"
+                  className="bg-white text-slate-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-slate-50 transition border border-slate-200 shadow-sm"
                 >
                   Ver planos
                 </button>
               </div>
 
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-5 text-sm text-gray-500">
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-5 text-sm text-slate-500">
                 <span className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-600" />
+                  <Check className="w-4 h-4 text-emerald-600" />
                   7 dias grátis
                 </span>
                 <span className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-600" />
+                  <Check className="w-4 h-4 text-emerald-600" />
                   Sem cartão
                 </span>
                 <span className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-600" />
+                  <Check className="w-4 h-4 text-emerald-600" />
                   Cancele quando quiser
                 </span>
               </div>
@@ -329,49 +329,49 @@ export default function Landing() {
             {/* Visual demo */}
             <div className="mt-12 lg:mt-0">
               <div className="relative">
-                <div className="bg-white rounded-3xl shadow-2xl p-6 border border-gray-200">
-                  <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-200">
+                <div className="bg-white rounded-3xl shadow-2xl p-6 border border-slate-200">
+                  <div className="flex items-center gap-2 mb-4 pb-4 border-b border-slate-200">
                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span className="ml-2 text-sm text-gray-600 font-medium">VendaFlow Dashboard</span>
+                    <span className="ml-2 text-sm text-slate-600 font-medium">VendaFlow Dashboard</span>
                   </div>
 
                   <div className="space-y-3">
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-4 rounded-2xl text-white shadow-sm">
+                    <div className="bg-gradient-to-r from-emerald-500 to-green-600 p-4 rounded-2xl text-white shadow-sm">
                       <div className="text-sm opacity-90 mb-1">Vendas Hoje</div>
                       <div className="text-3xl font-bold">R$ 2.847,50</div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-gray-50 p-3 rounded-xl border border-gray-200">
-                        <div className="text-xs text-gray-600 mb-1">Produtos vendidos</div>
-                        <div className="text-xl font-bold text-gray-900">127</div>
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div className="text-xs text-slate-600 mb-1">Produtos vendidos</div>
+                        <div className="text-xl font-bold text-slate-900">127</div>
                       </div>
-                      <div className="bg-gray-50 p-3 rounded-xl border border-gray-200">
-                        <div className="text-xs text-gray-600 mb-1">Ticket médio</div>
-                        <div className="text-xl font-bold text-gray-900">R$ 32,40</div>
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div className="text-xs text-slate-600 mb-1">Ticket médio</div>
+                        <div className="text-xl font-bold text-slate-900">R$ 32,40</div>
                       </div>
                     </div>
 
                     <div className="pt-2">
                       <div className="flex items-center justify-between text-sm mb-2">
-                        <span className="text-gray-600">Açaí 500ml</span>
-                        <span className="font-semibold text-gray-900">45 vendas</span>
+                        <span className="text-slate-600">Açaí 500ml</span>
+                        <span className="font-semibold text-slate-900">45 vendas</span>
                       </div>
                       <div className="flex items-center justify-between text-sm mb-2">
-                        <span className="text-gray-600">X-Burger</span>
-                        <span className="font-semibold text-gray-900">32 vendas</span>
+                        <span className="text-slate-600">X-Burger</span>
+                        <span className="font-semibold text-slate-900">32 vendas</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Suco Natural</span>
-                        <span className="font-semibold text-gray-900">28 vendas</span>
+                        <span className="text-slate-600">Suco Natural</span>
+                        <span className="font-semibold text-slate-900">28 vendas</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-2xl shadow-xl">
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-sky-500 to-cyan-600 text-white p-4 rounded-2xl shadow-xl">
                   <div className="text-xs opacity-90 mb-1">PDV Ativo</div>
                   <div className="text-2xl font-bold">Pronto para vender</div>
                 </div>
@@ -382,13 +382,13 @@ export default function Landing() {
       </section>
 
       {/* Pain points */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 max-w-4xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Seu negócio pode estar perdendo dinheiro sem você perceber
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-slate-600">
               Veja alguns sinais que travam vendas, bagunçam a operação e diminuem seu lucro.
             </p>
           </div>
@@ -397,13 +397,13 @@ export default function Landing() {
             {painPoints.map((pain, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-2xl border border-red-100 hover:border-red-200 hover:shadow-lg transition group"
+                className="bg-white p-6 rounded-2xl border border-rose-100 hover:border-rose-200 hover:shadow-lg transition group"
               >
-                <div className="bg-red-50 text-red-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-100 transition">
+                <div className="bg-rose-50 text-rose-600 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:bg-rose-100 transition">
                   {pain.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 leading-snug">{pain.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{pain.description}</p>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2 leading-snug">{pain.title}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{pain.description}</p>
               </div>
             ))}
           </div>
@@ -414,10 +414,10 @@ export default function Landing() {
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 max-w-4xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Com o VendaFlow, tudo fica mais simples
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-slate-600">
               Menos improviso, mais agilidade, mais controle e mais clareza para tomar decisões.
             </p>
           </div>
@@ -426,13 +426,13 @@ export default function Landing() {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="p-6 rounded-2xl border border-gray-100 hover:border-green-200 hover:shadow-lg transition group bg-white"
+                className="p-6 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition group bg-white"
               >
-                <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="bg-gradient-to-r from-emerald-500 to-green-600 text-white w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   {benefit.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">{benefit.title}</h3>
+                <p className="text-slate-600 leading-relaxed">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -440,13 +440,13 @@ export default function Landing() {
       </section>
 
       {/* Demo */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 text-white">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 max-w-4xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Veja como é simples usar
             </h2>
-            <p className="text-lg sm:text-xl text-gray-300">
+            <p className="text-lg sm:text-xl text-slate-300">
               Tudo que você precisa para vender mais com rapidez e sem complicação.
             </p>
           </div>
@@ -474,20 +474,20 @@ export default function Landing() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-16 sm:py-20 bg-gray-50">
+      <section id="pricing" className="py-16 sm:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-4 py-2 rounded-full text-sm font-semibold text-center">
+            <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-sm font-semibold text-center">
               <BadgeCheck className="w-4 h-4" />
               No plano Pro, você ganha cardápio online e venda online como diferencial
             </div>
           </div>
 
           <div className="text-center mb-12 max-w-4xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Escolha o plano ideal para o seu momento
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-slate-600">
               Teste grátis por 7 dias. Sem cartão de crédito. Sem compromisso.
             </p>
           </div>
@@ -498,38 +498,38 @@ export default function Landing() {
                 key={index}
                 className={`bg-white rounded-3xl shadow-xl p-8 pt-14 relative transition-all flex flex-col ${
                   plan.popular
-                    ? 'border-2 border-green-500 lg:scale-[1.03]'
-                    : 'border border-gray-200'
+                    ? 'border-2 border-emerald-500 lg:scale-[1.03]'
+                    : 'border border-slate-200'
                 }`}
               >
                 {plan.popular && (
-  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-    🔥 MAIS ESCOLHIDO
-  </div>
-)}
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                    🔥 MAIS ESCOLHIDO
+                  </div>
+                )}
 
                 <div className="text-center mb-6">
-  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-  <p className="text-sm text-gray-600 mb-3 min-h-[20px]">{plan.subtitle}</p>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{plan.name}</h3>
+                  <p className="text-sm text-slate-600 mb-3 min-h-[20px]">{plan.subtitle}</p>
 
-  {plan.bonus && (
-    <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full text-xs font-semibold mb-4">
-      <BadgeCheck className="w-3.5 h-3.5" />
-      Cardápio online + venda online incluídos
-    </div>
-  )}
+                  {plan.bonus && (
+                    <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-semibold mb-4">
+                      <BadgeCheck className="w-3.5 h-3.5" />
+                      Cardápio online + venda online incluídos
+                    </div>
+                  )}
 
-  <div className="mb-2">
-    <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
-    <span className="text-gray-600 text-lg">/mês</span>
-  </div>
-</div>
+                  <div className="mb-2">
+                    <span className="text-5xl font-bold text-slate-900">{plan.price}</span>
+                    <span className="text-slate-600 text-lg">/mês</span>
+                  </div>
+                </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start">
-                      <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm">{feature}</span>
+                      <Check className="w-5 h-5 text-emerald-500 mr-3 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700 text-sm">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -541,15 +541,15 @@ export default function Landing() {
                   }}
                   className={`block w-full py-4 rounded-xl font-semibold transition text-lg shadow-md text-center no-underline ${
                     plan.popular
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-green-200'
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      ? 'bg-gradient-to-r from-emerald-500 to-green-600 text-white hover:from-emerald-600 hover:to-green-700 shadow-emerald-200'
+                      : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                   }`}
                 >
                   {plan.buttonText}
                 </a>
 
                 {plan.popular && (
-                  <p className="text-center text-sm text-green-700 font-medium mt-3">
+                  <p className="text-center text-sm text-emerald-700 font-medium mt-3">
                     Venda no balcão e também no online no mesmo plano.
                   </p>
                 )}
@@ -558,8 +558,8 @@ export default function Landing() {
           </div>
 
           <div className="text-center">
-            <p className="text-gray-600 text-base sm:text-lg">
-              <Shield className="w-5 h-5 inline mr-2 text-green-600" />
+            <p className="text-slate-600 text-base sm:text-lg">
+              <Shield className="w-5 h-5 inline mr-2 text-emerald-600" />
               Todos os planos incluem 7 dias grátis • Cancele quando quiser
             </p>
           </div>
@@ -570,77 +570,77 @@ export default function Landing() {
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 max-w-4xl mx-auto">
-            <Award className="w-16 h-16 text-green-600 mx-auto mb-6" />
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <Award className="w-16 h-16 text-emerald-600 mx-auto mb-6" />
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Quem usa, sente a diferença no dia a dia
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-slate-600">
               Negócios locais usam o VendaFlow para vender com mais velocidade e mais controle.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-6 mb-12">
             {testimonials.map((item, index) => (
-              <div key={index} className="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm">
-                <div className="flex items-center gap-1 mb-4 text-green-600">
+              <div key={index} className="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm">
+                <div className="flex items-center gap-1 mb-4 text-emerald-600">
                   <Check className="w-4 h-4" />
                   <Check className="w-4 h-4" />
                   <Check className="w-4 h-4" />
                   <Check className="w-4 h-4" />
                   <Check className="w-4 h-4" />
                 </div>
-                <p className="text-gray-700 mb-4 leading-relaxed">“{item.text}”</p>
-                <p className="text-sm font-semibold text-gray-900">{item.name}</p>
+                <p className="text-slate-700 mb-4 leading-relaxed">“{item.text}”</p>
+                <p className="text-sm font-semibold text-slate-900">{item.name}</p>
               </div>
             ))}
           </div>
 
           <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-              <div className="text-4xl font-bold text-green-600 mb-2">Simples</div>
-              <p className="text-gray-600">Interface intuitiva para quem quer agilidade sem complicação</p>
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+              <div className="text-4xl font-bold text-emerald-600 mb-2">Simples</div>
+              <p className="text-slate-600">Interface intuitiva para quem quer agilidade sem complicação</p>
             </div>
-            <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-              <div className="text-4xl font-bold text-green-600 mb-2">Rápido</div>
-              <p className="text-gray-600">Venda em segundos e reduza filas nos momentos de pico</p>
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+              <div className="text-4xl font-bold text-emerald-600 mb-2">Rápido</div>
+              <p className="text-slate-600">Venda em segundos e reduza filas nos momentos de pico</p>
             </div>
-            <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-              <div className="text-4xl font-bold text-green-600 mb-2">Completo</div>
-              <p className="text-gray-600">Tudo o que você precisa para vender e controlar melhor</p>
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+              <div className="text-4xl font-bold text-emerald-600 mb-2">Completo</div>
+              <p className="text-slate-600">Tudo o que você precisa para vender e controlar melhor</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Perguntas frequentes
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-slate-600">
               Tudo que você precisa saber antes de começar
             </p>
           </div>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+              <div key={index} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                 <button
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition"
                 >
-                  <span className="font-semibold text-gray-900 text-lg pr-4">{faq.question}</span>
+                  <span className="font-semibold text-slate-900 text-lg pr-4">{faq.question}</span>
                   <ChevronDown
-                    className={`w-5 h-5 text-gray-600 flex-shrink-0 transition-transform ${
+                    className={`w-5 h-5 text-slate-600 flex-shrink-0 transition-transform ${
                       openFAQ === index ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
 
                 {openFAQ === index && (
-                  <div className="px-6 pb-5 text-gray-600 border-t border-gray-100 pt-4 leading-relaxed">
+                  <div className="px-6 pb-5 text-slate-600 border-t border-slate-100 pt-4 leading-relaxed">
                     {faq.answer}
                   </div>
                 )}
@@ -651,7 +651,7 @@ export default function Landing() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 sm:py-24 bg-gradient-to-r from-green-500 to-emerald-600 relative overflow-hidden">
+      <section className="py-20 sm:py-24 bg-gradient-to-r from-emerald-500 to-green-600 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute -top-10 left-10 w-64 h-64 rounded-full bg-white blur-3xl"></div>
           <div className="absolute bottom-0 right-10 w-64 h-64 rounded-full bg-white blur-3xl"></div>
@@ -661,7 +661,7 @@ export default function Landing() {
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
             Comece hoje e pare de perder dinheiro no seu negócio
           </h2>
-          <p className="text-xl sm:text-2xl text-green-50 mb-10 max-w-2xl mx-auto">
+          <p className="text-xl sm:text-2xl text-emerald-50 mb-10 max-w-2xl mx-auto">
             Teste grátis por 7 dias e veja como é mais fácil vender com agilidade, controle e clareza.
           </p>
 
@@ -671,13 +671,13 @@ export default function Landing() {
               trackEvent('cta_final_click');
               trackEvent('start_trial_click');
             }}
-            className="bg-white text-green-700 px-10 py-5 rounded-2xl font-bold text-xl hover:bg-gray-50 transition shadow-2xl inline-flex items-center group no-underline"
+            className="bg-white text-emerald-700 px-10 py-5 rounded-2xl font-bold text-xl hover:bg-slate-50 transition shadow-2xl inline-flex items-center group no-underline"
           >
             Começar grátis agora
             <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
           </a>
 
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-green-50 text-sm">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-emerald-50 text-sm">
             <span className="flex items-center gap-2">
               <Check className="w-4 h-4" />
               7 dias grátis
@@ -695,36 +695,36 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-950 text-white py-12">
+      <footer className="bg-slate-950 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="bg-gradient-to-r from-green-500 to-green-600 p-2 rounded-xl">
+              <div className="bg-gradient-to-r from-emerald-500 to-green-600 p-2 rounded-xl">
                 <Store className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold">VendaFlow</span>
             </div>
 
-            <p className="text-gray-400 mb-6 max-w-md">
+            <p className="text-slate-400 mb-6 max-w-md">
               Mais controle, mais agilidade e mais clareza para vender melhor todos os dias.
             </p>
 
             <div className="flex gap-6 mb-6 text-sm">
-              <a href={`${APP_URL}/login`} className="text-gray-400 hover:text-white transition no-underline">
+              <a href={`${APP_URL}/login`} className="text-slate-400 hover:text-white transition no-underline">
                 Entrar
               </a>
-              <a href={`${APP_URL}/register`} className="text-gray-400 hover:text-white transition no-underline">
+              <a href={`${APP_URL}/register`} className="text-slate-400 hover:text-white transition no-underline">
                 Criar conta
               </a>
               <button
                 onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-gray-400 hover:text-white transition"
+                className="text-slate-400 hover:text-white transition"
               >
                 Planos
               </button>
             </div>
 
-            <p className="text-gray-500 text-sm">
+            <p className="text-slate-500 text-sm">
               © 2024 VendaFlow. Todos os direitos reservados.
             </p>
           </div>
