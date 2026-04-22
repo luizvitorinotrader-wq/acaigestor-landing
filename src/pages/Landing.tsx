@@ -496,34 +496,34 @@ export default function Landing() {
             {plans.map((plan, index) => (
               <div
                 key={index}
-                className={`bg-white rounded-3xl shadow-xl p-8 pt-12 relative transition-all flex flex-col ${
+                className={`bg-white rounded-3xl shadow-xl p-8 pt-14 relative transition-all flex flex-col ${
                   plan.popular
                     ? 'border-2 border-green-500 lg:scale-[1.03]'
                     : 'border border-gray-200'
                 }`}
               >
                 {plan.popular && (
-  <>
-    <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-      🔥 MAIS ESCOLHIDO
-    </div>
-
-    {plan.bonus && (
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white text-green-700 border border-green-200 px-4 py-1 rounded-full text-xs font-semibold shadow-sm">
-        Inclui online
-      </div>
-    )}
-  </>
+  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+    🔥 MAIS ESCOLHIDO
+  </div>
 )}
 
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                  <p className="text-sm text-gray-600 mb-4 min-h-[20px]">{plan.subtitle}</p>
-                  <div className="mb-2">
-                    <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600 text-lg">/mês</span>
-                  </div>
-                </div>
+  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+  <p className="text-sm text-gray-600 mb-3 min-h-[20px]">{plan.subtitle}</p>
+
+  {plan.bonus && (
+    <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full text-xs font-semibold mb-4">
+      <BadgeCheck className="w-3.5 h-3.5" />
+      Cardápio online + venda online incluídos
+    </div>
+  )}
+
+  <div className="mb-2">
+    <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+    <span className="text-gray-600 text-lg">/mês</span>
+  </div>
+</div>
 
                 <ul className="space-y-4 mb-8 flex-1">
                   {plan.features.map((feature, i) => (
