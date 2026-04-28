@@ -1,10 +1,30 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+
   "redirects": [
     {
       "source": "/whatsapp",
-      "destination": "https://api.whatsapp.com/send?phone=5573981612637&text=Quero%20mais%20clientes%20no%20meu%20neg%C3%B3cio.%20Me%20explica%20como%20funciona%20o%20VendaFlow",
+      "destination": "https://wa.me/5573981612637?text=Quero%20ver%20como%20funciona%20na%20pr%C3%A1tica%20e%20quanto%20custa.",
       "permanent": false
+    }
+  ],
+
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 }
