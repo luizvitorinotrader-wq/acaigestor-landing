@@ -137,21 +137,21 @@ export default function Landing() {
       role: 'Dono de lanchonete',
       text: 'Antes eu fechava o dia sem saber se tinha lucro. Agora acompanho tudo em minutos e tomo decisões com confiança.',
       stars: 5,
-      avatar: 'JA',
+      photo: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&dpr=2',
     },
     {
       name: 'Mariana Costa',
       role: 'Dona de açaiteria',
       text: 'O atendimento ficou muito mais rápido e parei de perder venda por falta de controle. Recomendo demais!',
       stars: 5,
-      avatar: 'MC',
+      photo: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&dpr=2',
     },
     {
       name: 'Carlos Mendes',
       role: 'Cafeteria local',
       text: 'Finalmente consegui organizar caixa, produtos e operação em um lugar só. O sistema paga o custo dele rápido.',
       stars: 5,
-      avatar: 'CM',
+      photo: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&dpr=2',
     },
   ];
 
@@ -432,7 +432,6 @@ export default function Landing() {
 
           <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-950 aspect-video flex items-center justify-center group cursor-pointer"
             onClick={() => setVideoPlaying(true)}>
-            {/* Thumbnail overlay */}
             {!videoPlaying && (
               <>
                 <img
@@ -451,9 +450,13 @@ export default function Landing() {
               </>
             )}
             {videoPlaying && (
-              <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
-                <p className="text-white text-sm">Configure sua URL de vídeo aqui</p>
-              </div>
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/FKRk5cehp50?autoplay=1&rel=0"
+                title="Demonstração VendaFlow"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             )}
           </div>
 
@@ -619,9 +622,11 @@ export default function Landing() {
                 </div>
                 <p className="text-slate-700 text-base leading-relaxed mb-6">"{item.text}"</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                    {item.avatar}
-                  </div>
+                  <img
+                    src={item.photo}
+                    alt={item.name}
+                    className="w-11 h-11 rounded-full object-cover ring-2 ring-emerald-100 flex-shrink-0"
+                  />
                   <div>
                     <p className="font-bold text-slate-900 text-sm">{item.name}</p>
                     <p className="text-slate-500 text-xs">{item.role}</p>
