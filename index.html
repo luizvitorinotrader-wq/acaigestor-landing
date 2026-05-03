@@ -39,28 +39,38 @@
     />
 
     <title>VendaFlow - Controle total do seu negocio</title>
+
+    <style>
+      /* 🔒 Esconde conteúdo SEO do usuário */
+      .seo-content {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+    </style>
   </head>
 
   <body class="antialiased">
 
-    <!-- ✅ CONTEÚDO VISÍVEL PARA META / SEO -->
-    <main style="font-family: Inter, sans-serif; padding: 20px;">
+    <!-- ✅ Conteúdo invisível para usuário, visível para bots -->
+    <div class="seo-content">
       <h1>VendaFlow - Sistema para Pequenos Negócios</h1>
       <p>
         Controle vendas, estoque, caixa e pedidos em um único lugar.
         Sistema simples, rápido e feito para quem quer crescer sem complicação.
       </p>
-
       <p>
         Ideal para açaiterias, lanchonetes, pizzarias e pequenos comércios.
       </p>
-
       <p>
         Teste grátis agora e veja na prática como funciona.
       </p>
-    </main>
+    </div>
 
-    <!-- APP REACT -->
+    <!-- APP -->
     <div id="root"></div>
 
     <script type="module" src="/src/main.tsx"></script>
