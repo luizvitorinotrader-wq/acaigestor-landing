@@ -298,10 +298,15 @@ export default function Landing() {
       <nav className="sticky top-0 z-50 bg-white/97 backdrop-blur-lg border-b border-slate-100/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <a href="/" className="flex items-center no-underline" aria-label="VendaFlow">
-              <div className="bg-[#0a0f1e] rounded-xl px-2 py-1">
-                <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-9 sm:h-11 w-auto object-contain" />
-              </div>
+            <a href="/" className="flex items-center no-underline group" aria-label="VendaFlow">
+              <img
+                src="/logo-vendaflow.png"
+                alt="VendaFlow"
+                className="h-10 sm:h-12 w-auto object-contain mix-blend-multiply
+                  drop-shadow-[0_0_8px_rgba(16,185,129,0.45)]
+                  group-hover:drop-shadow-[0_0_14px_rgba(16,185,129,0.75)]
+                  transition-all duration-300"
+              />
             </a>
             <div className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <button onClick={() => document.getElementById('sistema')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-slate-900 transition">Sistema</button>
