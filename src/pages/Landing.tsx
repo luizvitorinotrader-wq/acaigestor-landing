@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 
-const YOUTUBE_VIDEO_URL = 'COLE_AQUI_A_URL_EMBED_DO_YOUTUBE';
+const YOUTUBE_VIDEO_URL = 'https://youtu.be/d8QLzdsEuig';
 
 const track = (e: string) => {
   try {
