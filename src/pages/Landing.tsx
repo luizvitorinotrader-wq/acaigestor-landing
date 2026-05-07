@@ -9,6 +9,8 @@ import { useState, useEffect, useRef } from 'react';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 
+const YOUTUBE_VIDEO_URL = 'COLE_AQUI_A_URL_EMBED_DO_YOUTUBE';
+
 const track = (e: string) => {
   try {
     const w = window as any; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -121,7 +123,7 @@ const faqs = [
   { q: 'Preciso instalar alguma coisa?', a: 'Não. Funciona direto no navegador — celular ou computador. Cria a conta e usa na hora.' },
   { q: 'Meu funcionário consegue usar?', a: 'Sim. Foi feita para o balcão, sob pressão. Se usa WhatsApp, usa o VendaFlow.' },
   { q: 'E se eu não gostar?', a: '7 dias para testar sem comprometer nada. Não gostou, não paga — zero burocracia.' },
-  { q: 'Serve para açaiteria?', a: 'Foi criado exatamente para açaiterias, lanchonetes e comércios locais. Não é genérico.' },
+  { q: 'Serve para meu tipo de comércio?', a: 'Sim. O VendaFlow foi pensado para pequenos comércios como açaiterias, pizzarias, hamburguerias, lanchonetes, cafeterias, delivery e lojas locais que precisam controlar pedidos, estoque, vendas e caixa.' },
   { q: 'Posso cancelar quando quiser?', a: 'Sim. Sem contrato, sem multa. Cancele pelo painel em menos de 1 minuto.' },
 ];
 
@@ -338,17 +340,22 @@ export default function Landing() {
               {/* Trust pill */}
               <div className="inline-flex items-center gap-2.5 bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold mb-8">
                 <BadgeCheck className="w-4 h-4 flex-shrink-0" />
-                +500 açaiterias já organizam com o VendaFlow
+                +500 pequenos comércios já organizam vendas com o VendaFlow
               </div>
 
               <h1 className="text-4xl sm:text-5xl xl:text-[3.6rem] font-extrabold leading-[1.05] tracking-tight mb-5">
                 Pare de perder vendas<br />
-                <span className="text-emerald-400">na sua açaíteria</span>
+                <span className="text-emerald-400">no seu comércio</span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-8 max-w-xl">
-                Controle estoque, vendas e pedidos em um só lugar —{' '}
-                <strong className="text-white">simples e rápido</strong>. Sem planilha, sem papel, sem bagunça.
+              <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-6 max-w-xl">
+                Controle pedidos, estoque, vendas e caixa em um só lugar —{' '}
+                <strong className="text-white">simples, rápido e feito para pequenos negócios</strong>. Sem planilha, sem papel, sem bagunça.
+              </p>
+
+              {/* Niches line */}
+              <p className="text-sm text-slate-400 font-medium mb-8 tracking-wide">
+                Açaiterias · Pizzarias · Hamburguerias · Lanchonetes · Delivery · Pequenos comércios
               </p>
 
               {/* Bullets */}
@@ -432,6 +439,41 @@ export default function Landing() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          VIDEO DEMO
+      ══════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-[#0a0f1e] text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(16,185,129,0.07),transparent_60%)]" aria-hidden />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="inline-block bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5">
+              Demonstração
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
+              Veja o VendaFlow funcionando na prática
+            </h2>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              Em poucos minutos você entende como organizar pedidos, estoque, vendas e caixa sem planilha, sem papel e sem bagunça.
+            </p>
+          </div>
+
+          {/* Responsive 16:9 video */}
+          <div className="relative w-full rounded-2xl overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.5)] border border-white/10" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src={YOUTUBE_VIDEO_URL}
+              title="VendaFlow em ação"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <PrimaryCTA event="cta_video" label="Testar grátis agora" />
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           2. DOR DO CLIENTE
       ══════════════════════════════════════════════ */}
       <section className="py-20 sm:py-28 bg-white">
@@ -445,7 +487,7 @@ export default function Landing() {
               <span className="text-red-500">sem perceber</span>
             </h2>
             <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-              Açaiterias sem sistema perdem em média{' '}
+              Pequenos comércios sem sistema perdem em média{' '}
               <strong className="text-slate-900">R$ 800 a R$ 2.000 por mês</strong>{' '}
               em erros que poderiam ser evitados.
             </p>
@@ -577,7 +619,7 @@ export default function Landing() {
               <span className="text-emerald-600"> a partir do dia 1</span>
             </h2>
             <p className="text-slate-500 text-lg max-w-xl mx-auto">
-              Cada funcionalidade foi pensada para o ritmo real de uma açaíteria ou lanchonete.
+              Cada funcionalidade foi pensada para o ritmo real de pequenos comércios alimentícios.
             </p>
           </div>
 
@@ -604,6 +646,76 @@ export default function Landing() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          ANTES E DEPOIS
+      ══════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-slate-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="inline-block bg-emerald-50 text-emerald-700 text-sm font-bold px-4 py-1.5 rounded-full mb-5 border border-emerald-100">
+              Transformação real
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
+              Antes e depois do VendaFlow
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Sem VendaFlow */}
+            <div className="bg-white border border-red-100 rounded-2xl p-8 shadow-sm">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                  <X className="w-5 h-5 text-red-500" />
+                </div>
+                <h3 className="font-extrabold text-xl text-slate-900">Sem VendaFlow</h3>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  'Pedido perdido no WhatsApp',
+                  'Caixa que não fecha',
+                  'Estoque no chute',
+                  'Anotações no caderno',
+                  'Falta de clareza no lucro',
+                ].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-slate-600">
+                    <span className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                      <X className="w-3 h-3 text-red-500" strokeWidth={3} />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Com VendaFlow */}
+            <div className="bg-[#0a0f1e] border border-emerald-500/25 rounded-2xl p-8 shadow-xl">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-emerald-500/20 border border-emerald-500/30 rounded-xl flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-400" />
+                </div>
+                <h3 className="font-extrabold text-xl text-white">Com VendaFlow</h3>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  'Pedidos organizados',
+                  'Caixa controlado',
+                  'Estoque atualizado',
+                  'Tudo no celular',
+                  'Relatórios claros',
+                ].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-slate-200">
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 shadow-sm shadow-emerald-500/40">
+                      <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           5. SOLUÇÃO CLARA (feature grid)
       ══════════════════════════════════════════════ */}
       <section className="py-20 sm:py-28 bg-slate-50">
@@ -619,7 +731,7 @@ export default function Landing() {
                 <span className="text-emerald-600">em um único lugar</span>
               </h2>
               <p className="text-slate-500 text-lg leading-relaxed mb-8">
-                Não é um sistema genérico. Foi criado especificamente para açaiterias, lanchonetes e pequenos comércios que precisam de agilidade no balcão e clareza nos números.
+                Não é um sistema genérico. Foi criado especificamente para açaiterias, pizzarias, hamburguerias, lanchonetes, delivery e pequenos comércios que precisam de agilidade no balcão e clareza nos números.
               </p>
               <PrimaryCTA event="cta_solucao" className="items-start" />
             </div>
