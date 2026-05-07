@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 
-const YOUTUBE_VIDEO_URL = 'https://youtu.be/d8QLzdsEuig';
+const YOUTUBE_VIDEO_URL = 'https://www.youtube.com/embed/d8QLzdsEuig';
 
 const track = (e: string) => {
   try {
@@ -299,7 +299,9 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <a href="/" className="flex items-center no-underline" aria-label="VendaFlow">
-              <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-9 sm:h-10 w-auto object-contain mix-blend-multiply" />
+              <div className="bg-[#0a0f1e] rounded-xl px-2 py-1">
+                <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-8 sm:h-10 w-auto object-contain" />
+              </div>
             </a>
             <div className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <button onClick={() => document.getElementById('sistema')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-slate-900 transition">Sistema</button>
@@ -991,7 +993,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <a href="/" className="flex items-center no-underline" aria-label="VendaFlow">
-              <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-9 w-auto object-contain" />
+              <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-8 sm:h-10 w-auto object-contain" />
             </a>
             <div className="flex gap-6 text-sm">
               <a href={`${APP_URL}/login`} className="text-slate-500 hover:text-white transition no-underline">Entrar</a>
