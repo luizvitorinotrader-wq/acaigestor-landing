@@ -300,7 +300,7 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <a href="/" className="flex items-center no-underline" aria-label="VendaFlow">
               <div className="bg-[#0a0f1e] rounded-xl px-2 py-1">
-                <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-8 sm:h-10 w-auto object-contain" />
+                <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-9 sm:h-11 w-auto object-contain" />
               </div>
             </a>
             <div className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
