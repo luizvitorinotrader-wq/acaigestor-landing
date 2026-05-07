@@ -1,5 +1,5 @@
 import {
-  Store, ChartBar as BarChart3, Package, DollarSign, Smartphone,
+  ChartBar as BarChart3, Package, DollarSign, Smartphone,
   Check, TrendingDown, Clock, CircleAlert as AlertCircle, Zap,
   Shield, Award, ChevronDown, ArrowRight, BadgeCheck, Star,
   CircleCheck as CheckCircle, TrendingUp, MapPin, X, Lock,
@@ -298,12 +298,9 @@ export default function Landing() {
       <nav className="sticky top-0 z-50 bg-white/97 backdrop-blur-lg border-b border-slate-100/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2.5">
-              <div className="bg-gradient-to-br from-emerald-500 to-green-600 p-1.5 rounded-lg shadow-sm shadow-emerald-200">
-                <Store className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-extrabold tracking-tight">VendaFlow</span>
-            </div>
+            <a href="/" className="flex items-center no-underline" aria-label="VendaFlow">
+              <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-9 sm:h-10 w-auto object-contain" />
+            </a>
             <div className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <button onClick={() => document.getElementById('sistema')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-slate-900 transition">Sistema</button>
               <button onClick={() => document.getElementById('depoimentos')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-slate-900 transition">Depoimentos</button>
@@ -344,13 +341,13 @@ export default function Landing() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl xl:text-[3.6rem] font-extrabold leading-[1.05] tracking-tight mb-5">
-                Pare de perder vendas<br />
-                <span className="text-emerald-400">no seu comércio</span>
+                Seu comércio está perdendo<br />
+                <span className="text-emerald-400">dinheiro sem você perceber</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-300 leading-relaxed mb-6 max-w-xl">
-                Controle pedidos, estoque, vendas e caixa em um só lugar —{' '}
-                <strong className="text-white">simples, rápido e feito para pequenos negócios</strong>. Sem planilha, sem papel, sem bagunça.
+                Organize pedidos, estoque e caixa em poucos minutos{' '}
+                <strong className="text-white">com o VendaFlow.</strong>
               </p>
 
               {/* Niches line */}
@@ -993,12 +990,9 @@ export default function Landing() {
       <footer className="bg-[#0a0f1e] border-t border-white/8 text-white py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2.5">
-              <div className="bg-gradient-to-br from-emerald-500 to-green-600 p-1.5 rounded-lg">
-                <Store className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-lg font-extrabold">VendaFlow</span>
-            </div>
+            <a href="/" className="flex items-center no-underline" aria-label="VendaFlow">
+              <img src="/logo-vendaflow.png" alt="VendaFlow" className="h-8 w-auto object-contain brightness-0 invert" />
+            </a>
             <div className="flex gap-6 text-sm">
               <a href={`${APP_URL}/login`} className="text-slate-500 hover:text-white transition no-underline">Entrar</a>
               <a href={`${APP_URL}/register`} className="text-slate-500 hover:text-white transition no-underline">Criar conta</a>
