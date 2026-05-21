@@ -3,7 +3,7 @@ import {
   Check, TrendingDown, Clock, CircleAlert as AlertCircle, Zap,
   Shield, Award, ChevronDown, ArrowRight, BadgeCheck, Star,
   CircleCheck as CheckCircle, TrendingUp, MapPin, X, Lock,
-  PhoneCall, Receipt, Users,
+  PhoneCall, Receipt, Users, Bot, MessageSquare, Sparkles,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
@@ -100,22 +100,28 @@ const testimonials = [
 
 const plans = [
   {
-    name: 'Starter', price: 'R$ 39,90', subtitle: 'Para começar com organização',
-    cta: 'Testar grátis por 7 dias', popular: false,
+    name: 'Starter', price: 'R$ 39,90', subtitle: 'Indicado para quem está começando',
+    cta: 'Testar grátis por 7 dias', popular: false, combo: false,
     events: ['plan_starter_click', 'start_trial_click'],
     features: ['Cadastro de produtos', 'PDV básico', 'Relatório diário', 'Acesso mobile e desktop', 'Suporte por email'],
   },
   {
-    name: 'Pro', price: 'R$ 79,90', subtitle: 'Para vender mais e crescer',
-    cta: '👉 Quero testar grátis — 7 dias', popular: true,
+    name: 'VendaFlow Pro', price: 'R$ 79,90', subtitle: 'Gestão completa para pequenos negócios',
+    cta: 'Testar grátis — 7 dias', popular: false, combo: false,
     events: ['plan_pro_click', 'start_trial_click'],
-    features: ['Tudo do Starter', 'PDV ultrarrápido', 'Controle de caixa profissional', 'Estoque com alertas', 'Relatórios de lucro', 'Múltiplos usuários (até 3)', 'Cardápio e pedidos online', 'Suporte prioritário'],
+    features: ['Pedidos', 'Estoque', 'Caixa', 'Vendas', 'Cardápio online', 'Relatórios', 'Múltiplos usuários (até 3)', 'Suporte prioritário'],
   },
   {
-    name: 'Premium', price: 'R$ 149,90', subtitle: 'Para operações maiores',
-    cta: 'Falar com especialista', popular: false,
-    events: ['plan_premium_click'],
-    features: ['Tudo do Pro', 'Usuários ilimitados', 'Comandas e mesas', 'Fichas técnicas', 'Gestão de clientes', 'API para integrações', 'Atendimento VIP'],
+    name: 'Pro + ComercIA', price: 'R$ 119,90', subtitle: 'Gestão completa + atendimento inteligente com IA',
+    cta: 'Quero testar o combo', popular: true, combo: true,
+    events: ['plan_pro_comercia_click', 'start_trial_click'],
+    features: ['Tudo do VendaFlow Pro', 'Atendente IA', 'Respostas comerciais automáticas', 'FAQs inteligentes', 'Histórico de conversas', 'Suporte para WhatsApp/manual assistido'],
+  },
+  {
+    name: 'Premium + ComercIA', price: 'R$ 169,90', subtitle: 'Gestão avançada + IA para atendimento e crescimento',
+    cta: 'Falar com especialista', popular: false, combo: true,
+    events: ['plan_premium_comercia_click'],
+    features: ['Tudo do Pro + ComercIA', 'Recursos avançados', 'Suporte prioritário', 'Integrações futuras', 'Preparação para widget/WhatsApp automático'],
   },
 ];
 
@@ -125,6 +131,9 @@ const faqs = [
   { q: 'E se eu não gostar?', a: '7 dias para testar sem comprometer nada. Não gostou, não paga — zero burocracia.' },
   { q: 'Serve para meu tipo de comércio?', a: 'Sim. O VendaFlow foi pensado para pequenos comércios como açaiterias, pizzarias, hamburguerias, lanchonetes, cafeterias, delivery e lojas locais que precisam controlar pedidos, estoque, vendas e caixa.' },
   { q: 'Posso cancelar quando quiser?', a: 'Sim. Sem contrato, sem multa. Cancele pelo painel em menos de 1 minuto.' },
+  { q: 'O ComercIA já responde automaticamente no WhatsApp?', a: 'Nesta fase beta, o ComercIA funciona como atendente IA assistido: ele gera respostas inteligentes para o comerciante copiar e enviar. A integração automática com WhatsApp será uma evolução futura.' },
+  { q: 'Vou precisar cadastrar tudo duas vezes?', a: 'Nesta primeira fase, o ComercIA pode exigir cadastro separado. A próxima etapa será sincronizar automaticamente dados do VendaFlow, como loja, produtos, categorias, horários, formas de pagamento e áreas de entrega.' },
+  { q: 'Posso contratar só o VendaFlow?', a: 'Sim. O VendaFlow Pro continua disponível separadamente por R$79,90/mês.' },
 ];
 
 const signupToasts = [
@@ -862,9 +871,116 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ══════════════════════════════════════════════
+          COMERCIA COMBO SECTION
+      ══════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-[#0a0f1e] text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(16,185,129,0.09),transparent_60%)]" aria-hidden />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:48px_48px]" aria-hidden />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-14">
+            <span className="inline-block bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+              Novo — Disponível em fase beta para clientes selecionados
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-5">
+              VendaFlow + ComercIA: gestão e atendimento<br className="hidden sm:block" />
+              <span className="text-emerald-400"> inteligente em um só pacote</span>
+            </h2>
+            <p className="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
+              Organize seu negócio com o VendaFlow e responda clientes mais rápido com o ComercIA, usando inteligência artificial treinada com informações reais da sua loja.
+            </p>
+          </div>
+
+          {/* 3 value pillars */}
+          <div className="grid md:grid-cols-3 gap-6 mb-14">
+            <div className="bg-white/5 border border-white/10 hover:border-emerald-500/30 rounded-2xl p-7 transition-all duration-200 group">
+              <div className="w-12 h-12 bg-emerald-500/20 border border-emerald-500/30 rounded-xl flex items-center justify-center mb-5 group-hover:bg-emerald-500/30 transition-colors">
+                <BarChart3 className="w-6 h-6 text-emerald-400" />
+              </div>
+              <h3 className="font-extrabold text-white text-base mb-2">VendaFlow organiza a operação</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Pedidos, estoque, caixa e relatórios em um único lugar. Seu negócio rodando com clareza e sem erro.
+              </p>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 hover:border-emerald-500/30 rounded-2xl p-7 transition-all duration-200 group">
+              <div className="w-12 h-12 bg-sky-500/20 border border-sky-500/30 rounded-xl flex items-center justify-center mb-5 group-hover:bg-sky-500/30 transition-colors">
+                <Bot className="w-6 h-6 text-sky-400" />
+              </div>
+              <h3 className="font-extrabold text-white text-base mb-2">ComercIA agiliza o atendimento</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Atendente IA que gera respostas comerciais inteligentes com base nos dados reais da sua loja.
+              </p>
+            </div>
+
+            <div className="bg-white/5 border border-white/10 hover:border-emerald-500/30 rounded-2xl p-7 transition-all duration-200 group">
+              <div className="w-12 h-12 bg-teal-500/20 border border-teal-500/30 rounded-xl flex items-center justify-center mb-5 group-hover:bg-teal-500/30 transition-colors">
+                <TrendingUp className="w-6 h-6 text-teal-400" />
+              </div>
+              <h3 className="font-extrabold text-white text-base mb-2">Juntos, reduzem perda de pedidos</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Operação organizada + atendimento mais rápido = menos clientes sem resposta e mais vendas fechadas.
+              </p>
+            </div>
+          </div>
+
+          {/* ComercIA features highlight */}
+          <div className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border border-emerald-500/20 rounded-2xl p-8 mb-14">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-emerald-500/20 border border-emerald-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <p className="font-extrabold text-white text-base">O que o ComercIA faz pela sua loja</p>
+                <p className="text-slate-400 text-xs">Disponível nos planos Pro + ComercIA e Premium + ComercIA</p>
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {[
+                { icon: <Bot className="w-4 h-4" />, text: 'Atendente IA treinado com sua loja' },
+                { icon: <MessageSquare className="w-4 h-4" />, text: 'Respostas comerciais automáticas' },
+                { icon: <CheckCircle className="w-4 h-4" />, text: 'FAQs inteligentes personalizados' },
+                { icon: <Users className="w-4 h-4" />, text: 'Histórico de conversas' },
+                { icon: <Smartphone className="w-4 h-4" />, text: 'Suporte WhatsApp manual assistido' },
+                { icon: <Zap className="w-4 h-4" />, text: 'Respostas em segundos, não minutos' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3">
+                  <span className="text-emerald-400 flex-shrink-0">{item.icon}</span>
+                  <span className="text-slate-300 text-sm">{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <a
+              href={`${APP_URL}/register`}
+              onClick={() => { track('combo_cta_click'); track('start_trial_click'); }}
+              className="group relative inline-flex items-center gap-3 overflow-hidden bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-white font-extrabold rounded-2xl text-xl px-12 py-5 transition-all no-underline shadow-[0_8px_32px_rgba(16,185,129,0.35)] hover:shadow-[0_12px_40px_rgba(16,185,129,0.45)]"
+            >
+              <span className="relative z-10 flex items-center gap-3">
+                Quero testar o combo
+                <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+              </span>
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+            </a>
+            <p className="mt-4 text-slate-500 text-sm flex items-center justify-center gap-1.5">
+              <Lock className="w-3 h-3" />
+              7 dias grátis · Sem cartão · Cancele quando quiser
+            </p>
+            <p className="mt-2 text-slate-600 text-xs">
+              O ComercIA está disponível em fase beta para clientes selecionados.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ── PLANOS ── */}
       <section id="pricing" className="py-20 sm:py-28 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-emerald-50 text-emerald-700 text-sm font-bold px-4 py-1.5 rounded-full mb-5 border border-emerald-100">
               Planos
@@ -873,39 +989,55 @@ export default function Landing() {
             <p className="text-slate-500 text-lg">7 dias grátis em qualquer plano. Sem cartão. Cancele quando quiser.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start">
+          {/* 4-column grid */}
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6 items-start">
             {plans.map((plan, i) => (
-              <div key={i} className={`relative rounded-3xl flex flex-col ${plan.popular ? 'bg-gradient-to-b from-slate-900 to-[#0a0f1e] shadow-2xl shadow-slate-900/50 md:scale-[1.04] z-10' : 'bg-white border border-slate-200 shadow-sm'}`}>
+              <div
+                key={i}
+                className={`relative rounded-3xl flex flex-col ${
+                  plan.popular
+                    ? 'bg-gradient-to-b from-slate-900 to-[#0a0f1e] shadow-2xl shadow-slate-900/50 xl:scale-[1.03] z-10 ring-2 ring-emerald-500/40'
+                    : 'bg-white border border-slate-200 shadow-sm'
+                }`}
+              >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-green-500 text-white px-6 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide shadow-lg whitespace-nowrap">
-                    Mais escolhido
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-green-500 text-white px-5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide shadow-lg whitespace-nowrap">
+                    Mais recomendado
                   </div>
                 )}
-                <div className="p-8">
-                  <p className={`text-xl font-extrabold mb-1 ${plan.popular ? 'text-white' : 'text-slate-900'}`}>{plan.name}</p>
-                  <p className={`text-sm mb-5 min-h-[2.5rem] ${plan.popular ? 'text-slate-400' : 'text-slate-500'}`}>{plan.subtitle}</p>
-                  <div className="mb-7">
-                    <span className={`text-5xl font-extrabold ${plan.popular ? 'text-white' : 'text-slate-900'}`}>{plan.price}</span>
+
+                {/* Combo badge */}
+                {plan.combo && !plan.popular && (
+                  <div className="absolute -top-3 left-4 bg-sky-500/90 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                    + ComercIA
+                  </div>
+                )}
+
+                <div className="p-7">
+                  <p className={`text-lg font-extrabold mb-1 ${plan.popular ? 'text-white' : 'text-slate-900'}`}>{plan.name}</p>
+                  <p className={`text-sm mb-5 min-h-[3rem] leading-snug ${plan.popular ? 'text-slate-400' : 'text-slate-500'}`}>{plan.subtitle}</p>
+                  <div className="mb-6">
+                    <span className={`text-4xl font-extrabold ${plan.popular ? 'text-white' : 'text-slate-900'}`}>{plan.price}</span>
                     <span className={`text-sm ml-1 ${plan.popular ? 'text-slate-400' : 'text-slate-500'}`}>/mês</span>
                   </div>
                   <a
                     href={`${APP_URL}/register`}
                     onClick={() => plan.events.forEach(e => track(e))}
-                    className={`block w-full py-4 rounded-2xl font-extrabold text-center text-base transition no-underline mb-2 ${plan.popular ? 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-500/30' : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200'}`}
+                    className={`block w-full py-3.5 rounded-2xl font-extrabold text-center text-sm transition no-underline mb-2 ${plan.popular ? 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-500/30' : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200'}`}
                   >
                     {plan.cta}
                   </a>
                   {plan.popular && (
-                    <p className="text-center text-xs text-emerald-400 mb-6 flex items-center justify-center gap-1">
+                    <p className="text-center text-xs text-emerald-400 mb-5 flex items-center justify-center gap-1">
                       <Lock className="w-3 h-3" />Sem cartão no cadastro
                     </p>
                   )}
-                  {!plan.popular && <div className="mb-6" />}
-                  <ul className="space-y-3">
+                  {!plan.popular && <div className="mb-5" />}
+                  <ul className="space-y-2.5">
                     {plan.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-3">
-                        <CheckCircle style={{ width: 17, height: 17 }} className={`flex-shrink-0 mt-0.5 ${plan.popular ? 'text-emerald-400' : 'text-emerald-500'}`} />
-                        <span className={`text-sm ${plan.popular ? 'text-slate-300' : 'text-slate-600'}`}>{f}</span>
+                      <li key={j} className="flex items-start gap-2.5">
+                        <CheckCircle style={{ width: 16, height: 16 }} className={`flex-shrink-0 mt-0.5 ${plan.popular ? 'text-emerald-400' : 'text-emerald-500'}`} />
+                        <span className={`text-sm leading-snug ${plan.popular ? 'text-slate-300' : 'text-slate-600'}`}>{f}</span>
                       </li>
                     ))}
                   </ul>
