@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { X, MessageSquare, ArrowRight, Send, Loader as Loader2 } from 'lucide-react';
+import { X, MessageSquare, ArrowRight, Send, Loader as Loader2, Sparkles } from 'lucide-react';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 const WHATSAPP_URL = 'https://wa.me/5511926036878?text=Ol%C3%A1%2C%20quero%20conhecer%20o%20VendaFlow';
@@ -18,17 +18,8 @@ type Role = 'user' | 'assistant';
 type InterestLevel = 'low' | 'medium' | 'high';
 type Intent = 'curiosity' | 'comparison' | 'interest' | 'purchase' | 'human_support';
 
-interface Message {
-  role: Role;
-  content: string;
-}
-
-interface LeadData {
-  name: string;
-  business_type: string;
-  city: string;
-  whatsapp: string;
-}
+interface Message { role: Role; content: string; }
+interface LeadData { name: string; business_type: string; city: string; whatsapp: string; }
 
 const QUICK_QUESTIONS = [
   'Quanto custa?',
@@ -40,9 +31,9 @@ const QUICK_QUESTIONS = [
 
 const WELCOME = 'Olá! Sou a IA do VendaFlow. Posso te ajudar a escolher o melhor plano para organizar sua loja. Quer saber sobre preços, funcionalidades ou teste grátis?';
 const ERROR_MSG = 'Posso te ajudar pelo WhatsApp ou você pode criar uma conta grátis para testar.';
-
-// Typing delay simulates human response time (ms)
 const TYPING_DELAY = 600;
+
+const BENEFITS = ['Tira dúvidas', 'Ajuda a escolher o plano', 'Responde em segundos'];
 
 export function VendaFlowSalesAssistant() {
   const [open, setOpen] = useState(false);
@@ -50,26 +41,68 @@ export function VendaFlowSalesAssistant() {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
   const [interestLevel, setInterestLevel] = useState<InterestLevel>('low');
-  const [accumulatedLead, setAccumulatedLead] = useState<LeadData>({
-    name: '', business_type: '', city: '', whatsapp: '',
-  });
+  const [accumulatedLead, setAccumulatedLead] = useState<LeadData>({ name: '', business_type: '', city: '', whatsapp: '' });
   const [highIntentTracked, setHighIntentTracked] = useState(false);
   const [leadStartTracked, setLeadStartTracked] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipTracked, setTooltipTracked] = useState(false);
+  // pulse is active for 2s every 10s
+  const [pulseActive, setPulseActive] = useState(true);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Pulse every 10 seconds (on for 2s, off for 8s)
+  useEffect(() => {
+    const cycle = () => {
+      setPulseActive(true);
+      const off = setTimeout(() => setPulseActive(false), 2000);
+      return off;
+    };
+    cycle();
+    const interval = setInterval(() => cycle(), 10000);
+    return () => { clearInterval(interval); };
+  }, []);
+
+  // Tooltip: show after 12s idle or scroll > 45%
+  const triggerTooltip = useCallback(() => {
+    if (open || showTooltip || tooltipTracked) return;
+    setShowTooltip(true);
+    if (!tooltipTracked) {
+      track('sales_assistant_tooltip_view');
+      setTooltipTracked(true);
+    }
+    // Auto-hide after 6s
+    setTimeout(() => setShowTooltip(false), 6000);
+  }, [open, showTooltip, tooltipTracked]);
+
+  useEffect(() => {
+    tooltipTimerRef.current = setTimeout(triggerTooltip, 12000);
+    return () => { if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current); };
+  }, [triggerTooltip]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      if (scrolled > 0.45) triggerTooltip();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [triggerTooltip]);
+
+  useEffect(() => {
+    if (open) setShowTooltip(false);
+  }, [open]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history, loading]);
 
   useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
+    if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
-  // Track high intent once per session
   useEffect(() => {
     if (interestLevel === 'high' && !highIntentTracked) {
       track('sales_assistant_high_intent');
@@ -89,13 +122,11 @@ export function VendaFlowSalesAssistant() {
     setInput('');
     setLoading(true);
 
-    // Track lead started when user sends first real message
     if (!leadStartTracked && history.length === 0) {
       track('sales_assistant_lead_started');
       setLeadStartTracked(true);
     }
 
-    // Simulate human typing delay
     await new Promise((r) => setTimeout(r, TYPING_DELAY));
 
     try {
@@ -106,17 +137,10 @@ export function VendaFlowSalesAssistant() {
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
           'Apikey': SUPABASE_ANON_KEY,
         },
-        body: JSON.stringify({
-          message: trimmed,
-          history: history.slice(-10),
-          accumulated_lead: accumulatedLead,
-        }),
+        body: JSON.stringify({ message: trimmed, history: history.slice(-10), accumulated_lead: accumulatedLead }),
       });
 
-      if (!res.ok) {
-        setHistory([...nextHistory, { role: 'assistant', content: ERROR_MSG }]);
-        return;
-      }
+      if (!res.ok) { setHistory([...nextHistory, { role: 'assistant', content: ERROR_MSG }]); return; }
 
       const data = await res.json();
       const reply: string = data.reply || ERROR_MSG;
@@ -124,7 +148,6 @@ export function VendaFlowSalesAssistant() {
       const level: InterestLevel = data.interest_level || 'low';
       const lead: LeadData = data.lead || accumulatedLead;
 
-      // Merge accumulated lead data
       setAccumulatedLead((prev) => ({
         name: lead.name || prev.name,
         business_type: lead.business_type || prev.business_type,
@@ -132,17 +155,10 @@ export function VendaFlowSalesAssistant() {
         whatsapp: lead.whatsapp || prev.whatsapp,
       }));
 
-      // Upgrade interest level only (never downgrade)
       const levelOrder: Record<InterestLevel, number> = { low: 0, medium: 1, high: 2 };
-      if (levelOrder[level] > levelOrder[interestLevel]) {
-        setInterestLevel(level);
-      }
+      if (levelOrder[level] > levelOrder[interestLevel]) setInterestLevel(level);
 
-      // Track lead completion when business info captured + high interest
-      if (
-        (lead.business_type || accumulatedLead.business_type) &&
-        (level === 'high' || intent === 'purchase')
-      ) {
+      if ((lead.business_type || accumulatedLead.business_type) && (level === 'high' || intent === 'purchase')) {
         track('sales_assistant_lead_completed');
       }
 
@@ -159,6 +175,11 @@ export function VendaFlowSalesAssistant() {
     track('sales_assistant_opened');
   }
 
+  function handleTooltipClick() {
+    track('sales_assistant_tooltip_click');
+    handleOpen();
+  }
+
   function handleSignup() {
     track('sales_assistant_signup_click');
     window.open(`${APP_URL}/register`, '_blank', 'noopener');
@@ -170,31 +191,49 @@ export function VendaFlowSalesAssistant() {
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(input);
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
   }
 
   const showQuick = history.length === 0 && !loading;
-
-  // Show smart CTAs when interest is medium+ or after first bot reply
   const showSmartCTA = interestLevel !== 'low' || history.some((m) => m.role === 'assistant');
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating button + tooltip */}
       {!open && (
-        <button
-          onClick={handleOpen}
-          aria-label="Fale com a IA"
-          className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-white font-bold text-sm px-4 py-3 rounded-full shadow-[0_8px_24px_rgba(16,185,129,0.4)] hover:shadow-[0_12px_32px_rgba(16,185,129,0.5)] transition-all duration-200"
-        >
-          <MessageSquare className="w-4 h-4 flex-shrink-0" />
-          <span>Fale com a IA</span>
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-300 rounded-full animate-ping" />
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full" />
-        </button>
+        <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-2">
+
+          {/* Tooltip bubble */}
+          {showTooltip && (
+            <button
+              onClick={handleTooltipClick}
+              className="bg-white text-slate-700 text-xs font-medium px-3.5 py-2.5 rounded-2xl rounded-br-sm shadow-lg border border-slate-200 max-w-[200px] text-left leading-snug hover:bg-slate-50 transition-all animate-[fadeInUp_0.2s_ease]"
+            >
+              Posso te ajudar a escolher o melhor plano 👋
+              <span className="block text-emerald-600 font-semibold mt-0.5 text-[11px]">Toque para conversar</span>
+            </button>
+          )}
+
+          {/* Badge */}
+          <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm border border-emerald-200 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-sm self-end">
+            <Sparkles className="w-3 h-3 text-emerald-500" />
+            IA pronta para ajudar
+          </div>
+
+          {/* Main button */}
+          <button
+            onClick={handleOpen}
+            aria-label="Perguntar à IA"
+            className="relative flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-white font-bold text-sm px-4 py-3 rounded-full shadow-[0_8px_24px_rgba(16,185,129,0.4)] hover:shadow-[0_12px_32px_rgba(16,185,129,0.5)] transition-all duration-200"
+          >
+            <MessageSquare className="w-4 h-4 flex-shrink-0" />
+            <span>Perguntar à IA</span>
+            {pulseActive && (
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-300 rounded-full animate-ping" />
+            )}
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full" />
+          </button>
+        </div>
       )}
 
       {/* Chat window */}
@@ -210,8 +249,8 @@ export function VendaFlowSalesAssistant() {
               <div>
                 <p className="text-white font-bold text-sm leading-none">VendaFlow IA</p>
                 <p className="text-emerald-200 text-xs mt-0.5 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse" />
-                  {loading ? 'Digitando...' : 'Assistente comercial'}
+                  <span className={`w-1.5 h-1.5 rounded-full inline-block ${loading ? 'bg-yellow-300 animate-pulse' : 'bg-emerald-300'}`} />
+                  {loading ? 'Digitando...' : 'IA online agora'}
                 </p>
               </div>
             </div>
@@ -224,17 +263,24 @@ export function VendaFlowSalesAssistant() {
             </button>
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2.5 max-h-72 bg-slate-50">
+          {/* Benefits strip */}
+          <div className="bg-emerald-50 border-b border-emerald-100 px-3 py-2 flex items-center gap-3 flex-shrink-0">
+            {BENEFITS.map((b) => (
+              <span key={b} className="flex items-center gap-1 text-[11px] text-emerald-700 font-medium whitespace-nowrap">
+                <span className="text-emerald-500">✓</span>{b}
+              </span>
+            ))}
+          </div>
 
-            {/* Welcome bubble */}
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-3 space-y-2.5 max-h-64 bg-slate-50">
+
             <div className="flex justify-start">
               <div className="max-w-[88%] px-3 py-2 rounded-2xl rounded-tl-sm text-sm leading-relaxed bg-white text-slate-700 shadow-sm border border-slate-100">
                 {WELCOME}
               </div>
             </div>
 
-            {/* Quick questions */}
             {showQuick && (
               <div className="flex flex-wrap gap-1.5 pt-0.5">
                 {QUICK_QUESTIONS.map((q) => (
@@ -249,12 +295,8 @@ export function VendaFlowSalesAssistant() {
               </div>
             )}
 
-            {/* Conversation history */}
             {history.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
+              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
                   className={`max-w-[88%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user'
@@ -267,7 +309,6 @@ export function VendaFlowSalesAssistant() {
               </div>
             ))}
 
-            {/* Typing indicator */}
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-slate-100 shadow-sm px-3 py-2.5 rounded-2xl rounded-tl-sm flex items-center gap-2">
@@ -302,15 +343,13 @@ export function VendaFlowSalesAssistant() {
             </button>
           </div>
 
-          {/* CTA buttons — shown after first interaction */}
+          {/* Smart CTAs */}
           {showSmartCTA && (
             <div className="bg-white border-t border-slate-100 p-3 flex gap-2 flex-shrink-0">
               <button
                 onClick={handleSignup}
-                className={`flex-1 flex items-center justify-center gap-1.5 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm active:scale-95 ${
-                  interestLevel === 'high'
-                    ? 'bg-emerald-500 hover:bg-emerald-400 ring-2 ring-emerald-300'
-                    : 'bg-emerald-500 hover:bg-emerald-400'
+                className={`flex-1 flex items-center justify-center gap-1.5 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm active:scale-95 bg-emerald-500 hover:bg-emerald-400 ${
+                  interestLevel === 'high' ? 'ring-2 ring-emerald-300' : ''
                 }`}
               >
                 Criar conta grátis
