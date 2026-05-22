@@ -201,7 +201,7 @@ export function VendaFlowSalesAssistant() {
     <>
       {/* Floating button + tooltip */}
       {!open && (
-        <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-2">
+        <div className="fixed bottom-[155px] sm:bottom-6 right-4 sm:right-6 z-40 flex flex-col items-end gap-2">
 
           {/* Tooltip bubble */}
           {showTooltip && (
