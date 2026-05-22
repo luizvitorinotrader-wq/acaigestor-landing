@@ -28,7 +28,7 @@ const QUICK_QUESTIONS = [
 
 const WELCOME = 'Olá! Sou a IA do VendaFlow. Posso te ajudar a escolher o melhor plano para organizar sua loja. Quer saber sobre preços, funcionalidades ou teste grátis?';
 
-const ERROR_MSG = 'Não consegui responder agora. Você pode falar diretamente pelo WhatsApp.';
+const ERROR_MSG = 'Posso te ajudar pelo WhatsApp ou você pode criar uma conta grátis para testar.';
 
 export function VendaFlowSalesAssistant() {
   const [open, setOpen] = useState(false);
