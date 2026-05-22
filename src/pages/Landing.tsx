@@ -1144,7 +1144,7 @@ export default function Landing() {
       </footer>
 
       {/* ── FLOATING CTA MOBILE ── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 sm:hidden bg-white/98 backdrop-blur border-t border-slate-200 px-4 pt-3 pb-4 shadow-2xl">
+      <div className="fixed bottom-0 left-0 right-0 z-50 sm:hidden bg-white/98 backdrop-blur border-t border-slate-200 px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl">
         <a
           href={`${APP_URL}/register`}
           onClick={() => { track('cta_mobile_float'); track('start_trial_click'); }}
