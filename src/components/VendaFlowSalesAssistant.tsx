@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { X, MessageSquare, ArrowRight, Send, Loader as Loader2 } from 'lucide-react';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 const WHATSAPP_URL = 'https://wa.me/5511926036878?text=Ol%C3%A1%2C%20quero%20conhecer%20o%20VendaFlow';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-
 const EDGE_FN = `${SUPABASE_URL}/functions/v1/generate-sales-assistant-response`;
 
 const track = (e: string) => {
@@ -16,36 +15,69 @@ const track = (e: string) => {
 };
 
 type Role = 'user' | 'assistant';
-type Message = { role: Role; content: string };
+type InterestLevel = 'low' | 'medium' | 'high';
+type Intent = 'curiosity' | 'comparison' | 'interest' | 'purchase' | 'human_support';
+
+interface Message {
+  role: Role;
+  content: string;
+}
+
+interface LeadData {
+  name: string;
+  business_type: string;
+  city: string;
+  whatsapp: string;
+}
 
 const QUICK_QUESTIONS = [
   'Quanto custa?',
   'Serve para minha loja?',
   'Tem teste grátis?',
   'O que é o ComercIA?',
-  'Quero falar no WhatsApp',
+  'Preciso instalar algum programa?',
 ];
 
 const WELCOME = 'Olá! Sou a IA do VendaFlow. Posso te ajudar a escolher o melhor plano para organizar sua loja. Quer saber sobre preços, funcionalidades ou teste grátis?';
-
 const ERROR_MSG = 'Posso te ajudar pelo WhatsApp ou você pode criar uma conta grátis para testar.';
+
+// Typing delay simulates human response time (ms)
+const TYPING_DELAY = 600;
 
 export function VendaFlowSalesAssistant() {
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
+  const [interestLevel, setInterestLevel] = useState<InterestLevel>('low');
+  const [accumulatedLead, setAccumulatedLead] = useState<LeadData>({
+    name: '', business_type: '', city: '', whatsapp: '',
+  });
+  const [highIntentTracked, setHighIntentTracked] = useState(false);
+  const [leadStartTracked, setLeadStartTracked] = useState(false);
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-      inputRef.current?.focus();
-    }
-  }, [history, open, loading]);
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [history, loading]);
 
-  async function sendMessage(text: string) {
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [open]);
+
+  // Track high intent once per session
+  useEffect(() => {
+    if (interestLevel === 'high' && !highIntentTracked) {
+      track('sales_assistant_high_intent');
+      setHighIntentTracked(true);
+    }
+  }, [interestLevel, highIntentTracked]);
+
+  const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
 
@@ -57,6 +89,15 @@ export function VendaFlowSalesAssistant() {
     setInput('');
     setLoading(true);
 
+    // Track lead started when user sends first real message
+    if (!leadStartTracked && history.length === 0) {
+      track('sales_assistant_lead_started');
+      setLeadStartTracked(true);
+    }
+
+    // Simulate human typing delay
+    await new Promise((r) => setTimeout(r, TYPING_DELAY));
+
     try {
       const res = await fetch(EDGE_FN, {
         method: 'POST',
@@ -67,19 +108,51 @@ export function VendaFlowSalesAssistant() {
         },
         body: JSON.stringify({
           message: trimmed,
-          history: history.slice(-6),
+          history: history.slice(-10),
+          accumulated_lead: accumulatedLead,
         }),
       });
 
+      if (!res.ok) {
+        setHistory([...nextHistory, { role: 'assistant', content: ERROR_MSG }]);
+        return;
+      }
+
       const data = await res.json();
-      const reply = res.ok && data.reply ? data.reply : ERROR_MSG;
+      const reply: string = data.reply || ERROR_MSG;
+      const intent: Intent = data.intent || 'curiosity';
+      const level: InterestLevel = data.interest_level || 'low';
+      const lead: LeadData = data.lead || accumulatedLead;
+
+      // Merge accumulated lead data
+      setAccumulatedLead((prev) => ({
+        name: lead.name || prev.name,
+        business_type: lead.business_type || prev.business_type,
+        city: lead.city || prev.city,
+        whatsapp: lead.whatsapp || prev.whatsapp,
+      }));
+
+      // Upgrade interest level only (never downgrade)
+      const levelOrder: Record<InterestLevel, number> = { low: 0, medium: 1, high: 2 };
+      if (levelOrder[level] > levelOrder[interestLevel]) {
+        setInterestLevel(level);
+      }
+
+      // Track lead completion when business info captured + high interest
+      if (
+        (lead.business_type || accumulatedLead.business_type) &&
+        (level === 'high' || intent === 'purchase')
+      ) {
+        track('sales_assistant_lead_completed');
+      }
+
       setHistory([...nextHistory, { role: 'assistant', content: reply }]);
     } catch {
       setHistory([...nextHistory, { role: 'assistant', content: ERROR_MSG }]);
     } finally {
       setLoading(false);
     }
-  }
+  }, [history, loading, accumulatedLead, interestLevel, leadStartTracked]);
 
   function handleOpen() {
     setOpen(true);
@@ -87,12 +160,12 @@ export function VendaFlowSalesAssistant() {
   }
 
   function handleSignup() {
-    track('sales_assistant_signup_clicked');
+    track('sales_assistant_signup_click');
     window.open(`${APP_URL}/register`, '_blank', 'noopener');
   }
 
   function handleWhatsapp() {
-    track('sales_assistant_whatsapp_clicked');
+    track('sales_assistant_whatsapp_click');
     window.open(WHATSAPP_URL, '_blank', 'noopener');
   }
 
@@ -104,6 +177,9 @@ export function VendaFlowSalesAssistant() {
   }
 
   const showQuick = history.length === 0 && !loading;
+
+  // Show smart CTAs when interest is medium+ or after first bot reply
+  const showSmartCTA = interestLevel !== 'low' || history.some((m) => m.role === 'assistant');
 
   return (
     <>
@@ -133,9 +209,9 @@ export function VendaFlowSalesAssistant() {
               </div>
               <div>
                 <p className="text-white font-bold text-sm leading-none">VendaFlow IA</p>
-                <p className="text-emerald-200 text-xs mt-0.5 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block" />
-                  Assistente comercial
+                <p className="text-emerald-200 text-xs mt-0.5 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse" />
+                  {loading ? 'Digitando...' : 'Assistente comercial'}
                 </p>
               </div>
             </div>
@@ -149,7 +225,8 @@ export function VendaFlowSalesAssistant() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-3 max-h-72 bg-slate-50">
+          <div className="flex-1 overflow-y-auto p-3 space-y-2.5 max-h-72 bg-slate-50">
+
             {/* Welcome bubble */}
             <div className="flex justify-start">
               <div className="max-w-[88%] px-3 py-2 rounded-2xl rounded-tl-sm text-sm leading-relaxed bg-white text-slate-700 shadow-sm border border-slate-100">
@@ -174,7 +251,10 @@ export function VendaFlowSalesAssistant() {
 
             {/* Conversation history */}
             {history.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div
+                key={i}
+                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
                 <div
                   className={`max-w-[88%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user'
@@ -190,7 +270,7 @@ export function VendaFlowSalesAssistant() {
             {/* Typing indicator */}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-white border border-slate-100 shadow-sm px-3 py-2.5 rounded-2xl rounded-tl-sm flex items-center gap-1.5">
+                <div className="bg-white border border-slate-100 shadow-sm px-3 py-2.5 rounded-2xl rounded-tl-sm flex items-center gap-2">
                   <Loader2 className="w-3.5 h-3.5 text-emerald-500 animate-spin" />
                   <span className="text-xs text-slate-400">Digitando...</span>
                 </div>
@@ -222,22 +302,28 @@ export function VendaFlowSalesAssistant() {
             </button>
           </div>
 
-          {/* CTA buttons */}
-          <div className="bg-white border-t border-slate-100 p-3 flex gap-2 flex-shrink-0">
-            <button
-              onClick={handleSignup}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm"
-            >
-              Criar conta grátis
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={handleWhatsapp}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm"
-            >
-              Falar no WhatsApp
-            </button>
-          </div>
+          {/* CTA buttons — shown after first interaction */}
+          {showSmartCTA && (
+            <div className="bg-white border-t border-slate-100 p-3 flex gap-2 flex-shrink-0">
+              <button
+                onClick={handleSignup}
+                className={`flex-1 flex items-center justify-center gap-1.5 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm active:scale-95 ${
+                  interestLevel === 'high'
+                    ? 'bg-emerald-500 hover:bg-emerald-400 ring-2 ring-emerald-300'
+                    : 'bg-emerald-500 hover:bg-emerald-400'
+                }`}
+              >
+                Criar conta grátis
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={handleWhatsapp}
+                className="flex-1 flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm"
+              >
+                Falar no WhatsApp
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>
