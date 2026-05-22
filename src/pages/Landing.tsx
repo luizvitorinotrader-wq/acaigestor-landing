@@ -6,6 +6,7 @@ import {
   PhoneCall, Receipt, Users, Bot, MessageSquare, Sparkles,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { VendaFlowSalesAssistant } from '../components/VendaFlowSalesAssistant';
 
 const APP_URL = 'https://app.acaigestor.com.br';
 
@@ -1154,6 +1155,9 @@ export default function Landing() {
         </a>
         <p className="text-center text-xs text-slate-400 mt-1.5">Sem cartão · Cancele quando quiser</p>
       </div>
+
+      {/* ── SALES ASSISTANT ── */}
+      <VendaFlowSalesAssistant />
 
       {/* ── SIGNUP TOAST ── */}
       {toast && (
