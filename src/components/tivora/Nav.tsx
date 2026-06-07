@@ -46,11 +46,17 @@ export function Nav() {
             className="flex items-center no-underline group"
             aria-label="Tivora"
           >
-            <img
-  src="/tivora_transparent.png"
-  alt="Tivora"
-  className="h-9 sm:h-10 lg:h-11 w-auto object-contain"
-/>
+            <div className="flex items-center gap-3">
+  <img
+    src="/tivora_transparent.png"
+    alt="Tivora"
+    className="h-10 w-10 object-contain"
+  />
+
+  <span className="text-white font-semibold text-3xl tracking-tight">
+    Tivora
+  </span>
+</div>
           </a>
 
           <div className="hidden md:flex items-center gap-7">
