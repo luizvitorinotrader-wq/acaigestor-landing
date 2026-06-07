@@ -46,31 +46,25 @@ export function Nav() {
             className="flex items-center no-underline group"
             aria-label="Tivora"
           >
-            <div className="flex items-center gap-3">
-              <a
-  href="/"
-  className="flex items-center no-underline group"
-  aria-label="Tivora"
->
-  <img
-    src="/logo_tivora_transparente.png"
-    alt="Tivora"
-    className="h-14 sm:h-16 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
-  />
-</a>
+            <img
+              src="/logo_tivora_transparente.png"
+              alt="Tivora"
+              className="h-14 sm:h-16 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+            />
+          </a>
 
-<div className="hidden md:flex items-center gap-7">
-  {links.map((link) => (
-    <button
-      key={link.label}
-      onClick={() => scrollTo(link.href)}
-      className="text-slate-400 hover:text-white text-sm font-medium transition-colors duration-200"
-    >
-      {link.label}
-    </button>
-  ))}
-</div>
-            
+          <div className="hidden md:flex items-center gap-7">
+            {links.map((link) => (
+              <button
+                key={link.label}
+                onClick={() => scrollTo(link.href)}
+                className="text-slate-400 hover:text-white text-sm font-medium transition-colors duration-200"
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+
           <div className="hidden md:flex items-center gap-3">
             <a
               href={`${APP_URL}/login`}
