@@ -25,8 +25,8 @@ const faqs = [
     a: 'Sim. Todos os dados são armazenados com criptografia, backup automático e infraestrutura segura. Você nunca perde o histórico do seu negócio.',
   },
   {
-    q: 'Os preços já foram definidos?',
-    a: 'Ainda estamos definindo os valores finais dos planos para oferecer o melhor custo-benefício. Em breve anunciamos. Você pode se cadastrar agora e aproveitar o período de teste gratuito.',
+    q: 'Quais são os planos do Tivora?',
+    a: 'Sim. O Tivora possui planos a partir de R$ 49,90/mês. Você pode escolher entre Starter, Pro, Pro + IA e Premium + IA, conforme o nível de recursos que sua empresa precisa. Todos os planos podem ser testados gratuitamente por 7 dias, com acesso completo às funcionalidades da plataforma.',
   },
 ];
 
