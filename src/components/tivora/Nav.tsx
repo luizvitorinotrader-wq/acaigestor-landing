@@ -41,26 +41,18 @@ export function Nav() {
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
           <a
             href="/"
             className="flex items-center no-underline group"
             aria-label="Tivora"
           >
-            <div className="flex items-center gap-3">
-  <img
-    src="/symbol-tivora.png"
-    alt="Tivora"
-    className="h-9 w-9 object-contain"
-  />
-
-  <span className="text-white font-semibold text-2xl tracking-tight">
-    Tivora
-  </span>
-</div>
+            <img
+              src="/logo-tivora-dark.svg"
+              alt="Tivora"
+              className="h-8 sm:h-9 lg:h-10 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+            />
           </a>
 
-          {/* Desktop links */}
           <div className="hidden md:flex items-center gap-7">
             {links.map((link) => (
               <button
@@ -73,7 +65,6 @@ export function Nav() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <a
               href={`${APP_URL}/login`}
@@ -81,6 +72,7 @@ export function Nav() {
             >
               Entrar
             </a>
+
             <a
               href={`${APP_URL}/register`}
               className="bg-[#2563EB] hover:bg-blue-500 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 no-underline shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-px"
@@ -89,7 +81,6 @@ export function Nav() {
             </a>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-slate-300 hover:text-white transition-colors p-1"
@@ -101,7 +92,6 @@ export function Nav() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -132,6 +122,7 @@ export function Nav() {
                 >
                   Entrar
                 </a>
+
                 <a
                   href={`${APP_URL}/register`}
                   className="text-center bg-[#2563EB] text-white py-3 rounded-lg font-semibold no-underline"
