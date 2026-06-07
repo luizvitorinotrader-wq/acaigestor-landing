@@ -47,11 +47,17 @@ export function Nav() {
             className="flex items-center no-underline group"
             aria-label="Tivora"
           >
-            <img
-  src="/logo-tivora.svg"
-  alt="Tivora"
-  className="h-10 w-auto"
-/>
+            <div className="flex items-center gap-3">
+  <img
+    src="/symbol-tivora.png"
+    alt="Tivora"
+    className="h-9 w-9 object-contain"
+  />
+
+  <span className="text-white font-semibold text-2xl tracking-tight">
+    Tivora
+  </span>
+</div>
           </a>
 
           {/* Desktop links */}
