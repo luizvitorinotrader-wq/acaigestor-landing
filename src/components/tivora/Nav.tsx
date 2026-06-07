@@ -47,15 +47,16 @@ export function Nav() {
             aria-label="Tivora"
           >
             <div className="flex items-center gap-3">
-  <img
-    src="/logo_tivora_transparente.png"
-        className="h-10 w-10 object-contain"
-  />
+              <img
+                src="/logo_tivora_transparente.png"
+                alt="Tivora"
+                className="h-11 w-11 sm:h-12 sm:w-12 object-contain"
+              />
 
-  <span className="text-white font-semibold text-3xl tracking-tight">
-    Tivora
-  </span>
-</div>
+              <span className="text-white font-semibold text-2xl sm:text-3xl tracking-tight leading-none">
+                Tivora
+              </span>
+            </div>
           </a>
 
           <div className="hidden md:flex items-center gap-7">
