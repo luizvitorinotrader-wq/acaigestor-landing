@@ -53,11 +53,7 @@ export function Nav() {
                 className="h-11 w-11 sm:h-12 sm:w-12 object-contain"
               />
 
-              <span className="text-white font-semibold text-2xl sm:text-3xl tracking-tight leading-none">
-                Tivora
-              </span>
-            </div>
-          </a>
+              </a>
 
           <div className="hidden md:flex items-center gap-7">
             {links.map((link) => (
