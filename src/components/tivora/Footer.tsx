@@ -49,11 +49,11 @@ export function Footer() {
               aria-label="Tivora"
             >
               <img
-                src="/logo-tivora-dark.svg"
-                alt="Tivora"
-                className="h-10 w-auto object-contain"
-              />
-            </a>
+              src="/logo_tivora_transparente.png"
+              alt="Tivora"
+              className="h-14 sm:h-16 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+            />
+          </a>
 
             <p className="text-slate-500 text-sm leading-relaxed max-w-[220px]">
               Plataforma de gestão inteligente para pequenos negócios.
