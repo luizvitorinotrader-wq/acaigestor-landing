@@ -47,12 +47,17 @@ export function Nav() {
             aria-label="Tivora"
           >
             <div className="flex items-center gap-3">
-              <img
-                src="/logo_tivora_transparente.png"
-                alt="Tivora"
-                className="h-11 w-11 sm:h-12 sm:w-12 object-contain"
-              />
-
+              <a
+  href="/"
+  className="flex items-center no-underline group"
+  aria-label="Tivora"
+>
+  <img
+    src="/logo_tivora_transparente.png"
+    alt="Tivora"
+    className="h-14 w-auto sm:h-16 object-contain transition-opacity duration-200 group-hover:opacity-90"
+  />
+</a>
               </a>
 
           <div className="hidden md:flex items-center gap-7">
