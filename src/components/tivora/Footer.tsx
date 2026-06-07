@@ -43,26 +43,36 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <a href="/" className="flex items-center gap-2.5 no-underline mb-5 w-fit" aria-label="Tivora">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2563EB] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-blue-600/25">
-                <span className="text-white font-black text-sm leading-none">T</span>
-              </div>
-              <span className="text-white font-bold text-lg tracking-tight">Tivora</span>
+            <a
+              href="/"
+              className="flex items-center no-underline mb-5 w-fit"
+              aria-label="Tivora"
+            >
+              <img
+                src="/logo-tivora-dark.svg"
+                alt="Tivora"
+                className="h-10 w-auto object-contain"
+              />
             </a>
-            <p className="text-slate-500 text-sm leading-relaxed max-w-[200px]">
+
+            <p className="text-slate-500 text-sm leading-relaxed max-w-[220px]">
               Plataforma de gestão inteligente para pequenos negócios.
             </p>
           </div>
 
           {/* Links */}
-          {footerLinks.map(group => (
+          {footerLinks.map((group) => (
             <div key={group.title}>
-              <p className="text-slate-300 font-semibold text-sm mb-4">{group.title}</p>
+              <p className="text-slate-300 font-semibold text-sm mb-4">
+                {group.title}
+              </p>
+
               <ul className="space-y-2.5">
-                {group.links.map(link => (
+                {group.links.map((link) => (
                   <li key={link.label}>
                     {link.href.startsWith('#') ? (
                       <button
+                        type="button"
                         onClick={() => scrollTo(link.href)}
                         className="text-slate-500 hover:text-slate-200 text-sm transition-colors"
                       >
@@ -84,12 +94,22 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-white/8">
-          <p className="text-slate-600 text-sm">© 2026 Tivora. Todos os direitos reservados.</p>
+          <p className="text-slate-600 text-sm">
+            © 2026 Tivora. Todos os direitos reservados.
+          </p>
+
           <div className="flex gap-5">
-            <a href={`${APP_URL}/login`} className="text-slate-600 hover:text-slate-300 text-sm transition-colors no-underline">
+            <a
+              href={`${APP_URL}/login`}
+              className="text-slate-600 hover:text-slate-300 text-sm transition-colors no-underline"
+            >
               Entrar
             </a>
-            <a href={`${APP_URL}/register`} className="text-slate-600 hover:text-slate-300 text-sm transition-colors no-underline">
+
+            <a
+              href={`${APP_URL}/register`}
+              className="text-slate-600 hover:text-slate-300 text-sm transition-colors no-underline"
+            >
               Criar conta
             </a>
           </div>
