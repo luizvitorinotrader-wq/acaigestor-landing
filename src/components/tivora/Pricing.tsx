@@ -69,13 +69,13 @@ export function Pricing() {
           </p>
         </AnimateIn>
 
-        <AnimateIn variant="fadeUp" stagger className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
+        <AnimateIn variant="fadeUp" stagger className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
           {plans.map((plan, i) => (
             <AnimateItem key={i}>
               <div
                 className={`relative rounded-2xl flex flex-col transition-all duration-200 ${
                   plan.popular
-                    ? 'bg-gradient-to-b from-[#0F172A] to-[#1E3A8A]/90 shadow-2xl shadow-blue-900/40 ring-2 ring-[#2563EB]/50 sm:scale-[1.03] z-10'
+                    ? 'bg-gradient-to-b from-[#0F172A] to-[#1E3A8A]/90 shadow-2xl shadow-blue-900/40 ring-2 ring-[#2563EB]/50 md:scale-[1.02] z-10'
                     : 'bg-white border border-slate-200 shadow-sm'
                 }`}
               >

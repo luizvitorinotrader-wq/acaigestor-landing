@@ -38,7 +38,7 @@ export function Solution() {
           </p>
         </AnimateIn>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {/* Before */}
           <AnimateIn variant="fadeLeft">
             <div className="bg-white/4 border border-white/10 rounded-2xl p-8 h-full">

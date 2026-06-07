@@ -44,7 +44,7 @@ export function Testimonials() {
           <p className="text-slate-500 text-lg">Resultados reais de donos de negócio como você.</p>
         </AnimateIn>
 
-        <AnimateIn variant="fadeUp" stagger className="grid lg:grid-cols-3 gap-6">
+        <AnimateIn variant="fadeUp" stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <AnimateItem key={i}>
               <div className="flex flex-col bg-white border border-slate-200 hover:border-[#2563EB]/30 hover:shadow-xl hover:shadow-[#2563EB]/5 rounded-2xl p-7 transition-all duration-200 h-full">

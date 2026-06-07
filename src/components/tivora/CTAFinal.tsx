@@ -20,7 +20,7 @@ export function CTAFinal() {
             Comece hoje, veja a diferença esta semana
           </div>
 
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">
             Sua operação pode estar
             <br />
             <span className="bg-gradient-to-r from-[#2563EB] to-[#06B6D4] bg-clip-text text-transparent">

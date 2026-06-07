@@ -96,8 +96,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(37,99,235,0.1),transparent)]" />
       </div>
 
-      <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+      <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-24 items-center">
 
           <div>
             <motion.div
