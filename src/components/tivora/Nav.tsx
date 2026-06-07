@@ -58,9 +58,7 @@ export function Nav() {
     className="h-14 w-auto sm:h-16 object-contain transition-opacity duration-200 group-hover:opacity-90"
   />
 </a>
-              </a>
-
-          <div className="hidden md:flex items-center gap-7">
+            <div className="hidden md:flex items-center gap-7">
             {links.map((link) => (
               <button
                 key={link.label}
