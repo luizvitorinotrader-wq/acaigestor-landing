@@ -48,10 +48,10 @@ export function Nav() {
             aria-label="Tivora"
           >
             <img
-              src="/logo-tivora-dark.svg"
-              alt="Tivora"
-              className="h-9 sm:h-10 lg:h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
-            />
+  src="/logo-tivora.svg"
+  alt="Tivora"
+  className="h-10 w-auto"
+/>
           </a>
 
           {/* Desktop links */}
