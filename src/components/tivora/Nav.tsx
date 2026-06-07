@@ -21,7 +21,10 @@ export function Nav() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
+
     window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -33,7 +36,7 @@ export function Nav() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? 'bg-[#0F172A]/95 backdrop-blur-xl border-b border-white/8 shadow-2xl shadow-black/30'
-          : 'bg-transparent'
+          : 'bg-[#0F172A]/90 backdrop-blur-xl'
       }`}
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,18 +44,19 @@ export function Nav() {
           {/* Logo */}
           <a
             href="/"
-            className="flex items-center gap-2.5 no-underline group"
+            className="flex items-center no-underline group"
             aria-label="Tivora"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2563EB] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:shadow-blue-500/50 transition-shadow">
-              <span className="text-white font-black text-sm leading-none">T</span>
-            </div>
-            <span className="text-white font-bold text-lg tracking-tight">Tivora</span>
+            <img
+              src="/logo-tivora-dark.svg"
+              alt="Tivora"
+              className="h-9 sm:h-10 lg:h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+            />
           </a>
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-7">
-            {links.map(link => (
+            {links.map((link) => (
               <button
                 key={link.label}
                 onClick={() => scrollTo(link.href)}
@@ -83,7 +87,8 @@ export function Nav() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-slate-300 hover:text-white transition-colors p-1"
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={menuOpen}
           >
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -101,15 +106,19 @@ export function Nav() {
             className="md:hidden bg-[#0F172A]/98 border-t border-white/8 overflow-hidden"
           >
             <div className="px-4 py-5 flex flex-col gap-1">
-              {links.map(link => (
+              {links.map((link) => (
                 <button
                   key={link.label}
-                  onClick={() => { scrollTo(link.href); setMenuOpen(false); }}
+                  onClick={() => {
+                    scrollTo(link.href);
+                    setMenuOpen(false);
+                  }}
                   className="text-slate-300 hover:text-white text-base font-medium py-3 text-left transition-colors"
                 >
                   {link.label}
                 </button>
               ))}
+
               <div className="pt-3 flex flex-col gap-2 border-t border-white/8 mt-2">
                 <a
                   href={`${APP_URL}/login`}
