@@ -55,21 +55,22 @@ export function Nav() {
   <img
     src="/logo_tivora_transparente.png"
     alt="Tivora"
-    className="h-14 w-auto sm:h-16 object-contain transition-opacity duration-200 group-hover:opacity-90"
+    className="h-14 sm:h-16 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
   />
 </a>
-            <div className="hidden md:flex items-center gap-7">
-            {links.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => scrollTo(link.href)}
-                className="text-slate-400 hover:text-white text-sm font-medium transition-colors duration-200"
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
 
+<div className="hidden md:flex items-center gap-7">
+  {links.map((link) => (
+    <button
+      key={link.label}
+      onClick={() => scrollTo(link.href)}
+      className="text-slate-400 hover:text-white text-sm font-medium transition-colors duration-200"
+    >
+      {link.label}
+    </button>
+  ))}
+</div>
+            
           <div className="hidden md:flex items-center gap-3">
             <a
               href={`${APP_URL}/login`}
